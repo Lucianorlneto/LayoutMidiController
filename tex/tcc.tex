@@ -1,0 +1,335 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese, brazil, english]{babel}
+\usepackage{graphics}
+\usepackage{url}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{verbatim} 
+\usepackage{amsmath} 
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lmodern}
+\usepackage[portuguese,ruled,lined]{algorithm2e}
+\usepackage{algorithmic}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{indentfirst}
+\usepackage{mathrsfs,amsmath}
+\usepackage{amstext}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[refpage]{nomencl}
+\usepackage{nomencl}
+% \usepackage[alf,abnt-etal-cite=2,abnt-etal-list=0,abnt-etal-text=it,versalete,bibjustif]{abntex2cite}
+\usepackage[alf]{abntex2cite}
+
+\usepackage{epstopdf}
+\usepackage{datetime}
+%\usepackage[acronym]{glossaries}
+%\usepackage{glossaries}
+\usepackage{acro}
+%\usepackage[acronym]{glossaries}
+%\usepackage{longtable}
+% probably a good idea for the nomenclature entries:
+%\acsetup{first-style=short}
+% class `abbrev': abbreviations:
+%\DeclareAcronym{ny}{
+%  short = NY ,
+%  long  = New York ,
+%  class = abbrev
+%}
+%\DeclareAcronym{la}{
+%  short = LA ,
+%  long  = Los Angeles ,
+%  class = abbrev
+%}
+%\enableregime[utf]
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1, key2, key3}, % list of keywords
+    pdfnewwindow=true,      % links in new PDF window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=blue           % color of external links
+}
+\geometry{left=2.5cm, top=2cm, bottom=2.5cm, right=2cm}
+\newcommand{\euler}{\textit{e}}
+\newcommand{\complexSymbol}{\textit{j}}
+\setstretch{1.5}
+
+\hfuzz=30pt
+%\vfuzz=20pt
+\hbadness=2000
+\vbadness=\maxdimen
+
+\def\worktitle{Desenvolvimento de um {\it drum pad} usando visão artificial}
+\def\workauthor{Luciano Rodrigues Lucio Neto}
+\def\workadvisor{Agostinho de Medeiros Brito Júnior}
+
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+
+\acsetup{first-style=short}
+
+% Exemplos de acrônimos, se necessários...
+% class `abbrev': abbreviations:
+\DeclareAcronym{DFT}{
+  short = DFT ,
+  long  = \textit{Discrete Fourier Transform} ,
+  class = abbrev
+}
+\DeclareAcronym{IDFT}{
+  short = IDFT ,
+  long  = \textit{Inverse Fourier Transform} ,
+  class = abbrev
+}
+\DeclareAcronym{FFT}{
+  short = FFT ,
+  long  = \textit{Fast Fourier Transform} ,
+  class = abbrev
+}
+
+\DeclareAcronym{IFFT}{
+  short = IFFT ,
+  long  = \textit{Inverse Fast Fourier Transform} ,
+  class = abbrev
+}
+\DeclareAcronym{2D DFT}{
+  short = 2D DFT ,
+  long  = \textit{Two-Dimensional Discrete Fourier Transform} ,
+  class = abbrev
+}
+
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords: }} #1}
+\providecommand{\palavrasChaves}[1]{\textbf{\textit{Palavras-chaves: }} #1}
+
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\selectlanguage{brazil}
+\begin{titlepage}
+
+	\centering
+	{\normalsize \workauthor \par}
+	%\includegraphics[width=0.15\textwidth]{example-image-1x1}\par\vspace{1cm}
+	%{\scshape\LARGE Universidade Federal do Rio Grande do Norte \par}
+	\vfill
+	{\Large\bfseries \worktitle \par}
+	\vfill
+
+% Bottom of the page
+
+	{\normalsize Brasil\par}
+	{\normalsize \monthyeardate\today}
+\end{titlepage}
+
+\begin{titlepage}
+
+	\centering
+	{\normalsize \workauthor\par}
+	%\includegraphics[width=0.15\textwidth]{example-image-1x1}\par\vspace{1cm}
+	%{\scshape\LARGE Universidade Federal do Rio Grande do Norte \par}
+	\vfill
+	\centering
+	{\Large\bfseries \par}
+	\vfill
+
+	\begin{flushright}	
+	\begin{minipage}{15em}	
+	\setstretch{1.0}
+  	Trabalho de Conclusão de Curso Submetido à Coordenação do Curso de Engenharia de Computação e Automação do Centro de Tecnologia da Universidade Federal do Rio Grande do Norte, como parte dos requisitos necessários para a obtenção do grau de Engenheiro de Computação.
+	\end{minipage}
+	\end{flushright}	
+	\vfill
+	
+	
+	{\small Universidade Federal do Rio Grande do Norte - UFRN \par}
+	{\small Coordenação do Curso de Engenharia de Computação e Automação - DCA \par}
+	{\small Graduação em Engenharia de Computação \par}
+	\vfill
+	\normalsize
+	\centering
+	{\normalsize Orientador: Agostinho de Medeiros Brito Júnior \par}
+	\vfill
+% Bottom of the page
+	{\normalsize Brasil\par}
+	{\normalsize \monthyeardate\today}
+\end{titlepage}
+
+\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+
+%%%%%% AGRADECIMENTOS %%%%%%
+
+\begin{center}
+%{\bf \Large Agradecimentos}
+\end{center}
+%Gostaria de agradecer a...
+
+\newpage
+
+%%%%%% RESUMO %%%%%%
+
+\begin{abstract}
+  Apresenta o desenvolvimento de um {\it drum pad} usando visão
+  artificial capaz de controlar sintetizadores musicais criando uma
+  sequência de notas musicais em repetição. Instrumentos assim são
+  muito usados por músicos amadores que precisam criar acompanhamentos
+  de bateria ou baixo para suas composições e não dispõem de músicos
+  auxiliares para fazê-lo. A ferramenta criada permite que usando
+  apenas uma webcam, uma folha de papel e software livre um músico
+  amador seja capaz de criar efeitos semelhantes aos de um drum pad
+  físico desenhando ou sobrepondo pequenas fichas coloridas na folha
+  de papel.
+  \\
+  \palavrasChaves{Drum pad, sequenciador, controlador midi, OpenCV,
+    Visão artificial}
+\end{abstract}
+
+\newpage
+
+%%%%%% RESUMO EM INGLÊS %%%%%%
+\selectlanguage{english}
+
+\begin{abstract}
+  abstract in english
+  \\
+  \keywords{translate-as}
+
+\end{abstract}
+
+\newpage
+
+\selectlanguage{brazil}
+
+%%%%%% LISTA DE FIGURAS %%%%%%
+
+\listoffigures
+
+\newpage
+
+%%%%%% LISTA DE ABREVIAÇÕES %%%%%%
+
+%{\centering
+%\printacronyms[include-classes=abbrev,name=Abreviações]
+%}
+\tableofcontents
+
+%\makenomenclature
+%\makeglossaries
+
+%\newglossaryentry{DFT}{%
+%name={DFT},%
+%description={antigeen-presenterende cel}%
+%}
+
+
+\newpage
+
+%%%%%% INÍCIO DO TEXTO %%%%%%
+
+\pagenumbering{arabic}
+
+\chapter{Introdução}
+\label{cha:introducao}
+
+Nesse capítulo, descreva o que é um drum pad, como funciona e porque
+são tão importantes para músicos amadores. Fale sobre versatilidades e
+limitações dos pads, custos de aquisição e como isso impacta nas
+atividades de um músico amador.
+
+Descreva como sua proposta pretende oferecer uma solução barata e de
+fácil uso usando visão artificial, o que ela poderia oferecer quando
+comparada à solução física e como softwares livres podem facilmente
+interagir com a solução proposta.
+
+No capítulo XX serão apresentados..., no capítulo XX será mostrado
+... . O capítulo XX discorre sobre.... blá, blá, blá...
+
+\chapter{Materiais e métodos}
+\label{cha:fund-teor}
+
+Descreva os principais algoritmos e tecnologias que utilizaste para
+desenvolver a ferramenta, introduzindo a priori seu modelo de
+PAD. Apresente a figura do pad, porque ela foi construída dessa forma
+e descreva os algoritmos que escolheu para identificar as partes de
+interesse no seu pad virtual. Nesse momento, ESQUEÇA que tudo foi
+feito usando OpenCV, com destaque APENAS para os algoritmos.
+
+Assuntos a serem abordados:
+
+- O formato MIDI para comunicação entre Controlador e Sintetizador
+(coloque uma seção só para isso. Quero aprender como funciona! :) )
+
+- O processo de seleção de cores dos cantos da imagem. Salientar que
+os marcadores existem para permitir a transformação de perspectiva.
+
+- Descrever a MATEMÁTICA envolvida nessa transformação 
+
+- Descrever COMO o usuário deve usar o quadriculado para selecionar as
+notas a serem tocadas. A propósito, um pouquinho de teoria musical
+explicando um bê-a-bá do uso do modelo é bem vinda. :)))
+
+- Descrever o uso da classe RtMidi, porque foi escolhida e como se dá
+sua utilização.
+
+- Descrever o sintetizador usado nos experimentos (QSynth).
+
+- Descrever como se dá, no Linux, a interligação entre seu software
+Controlador e o Sintetizador. Um diagrama legal feito no inkscape
+cairia bem nesse canto.
+
+\chapter{Resultados}
+\label{cha:resultados}
+
+Apresentar exemplos de uso da ferramenta...
+
+Tem um software bem legal de composição chamado rosegarden. Ele também
+funciona como um ``sintetizador m MIDI'', pois aceita entradas do
+controlador para permitir composições. Prepare um loop de exemplo e
+conecte a saida do seu controlador na entrada do rosegarden. Observe a
+sequencia gerada no software. Salve a sequencia e verifique se é
+possível, usando o rosegarden, repetir a sequencia de loops conectando
+agora rosegarden->qsynth.
+
+Se funcionar legal (acredito que funcionará sem problemas), terás um
+resultado muito bom, pois poderá mixar várias combinações possíveis
+usando o rosegarden.
+
+\chapter{Conclusões}
+\label{cha:conclusoes}
+
+Revise em linhas gerais o algoritmo desenvolvido e mostre os
+progressos que obteve, comentando resultados e dificuldades
+enfrentadas.
+
+Proponha melhorias para a sua criação.
+
+\bibliography{referencias}
+
+\end{document}
