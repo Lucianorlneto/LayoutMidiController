@@ -201,8 +201,8 @@
   sequência de notas musicais em repetição. Instrumentos assim são
   muito usados por músicos amadores que precisam criar acompanhamentos
   de bateria ou baixo para suas composições e não dispõem de músicos
-  auxiliares para fazê-lo. A ferramenta criada permite que usando
-  apenas uma webcam, uma folha de papel e software livre um músico
+  auxiliares para fazê-lo. A ferramenta criada permite que, usando
+  apenas uma webcam, uma folha de papel e software livre, um músico
   amador seja capaz de criar efeitos semelhantes aos de um drum pad
   físico desenhando ou sobrepondo pequenas fichas coloridas na folha
   de papel.
@@ -258,15 +258,12 @@
 \chapter{Introdução}
 \label{cha:introducao}
 
-Nesse capítulo, descreva o que é um drum pad, como funciona e porque
-são tão importantes para músicos amadores. Fale sobre versatilidades e
-limitações dos pads, custos de aquisição e como isso impacta nas
-atividades de um músico amador.
+Um {\it drum pad} é um periférico utilizados por diferentes segmentos da sociedade de diferentes formas. Sua principal função é reproduzir sons escolhidos pelo usuário ao apertar de botões de sua interface e, por isso, é comumente utilizado principalmente pela comunidade de músicos sendo eles profissionais ou amadores.
+Utilizado também como uma forma de se programar uma sequência de sons que será reproduzida em um intervalo de tempo específico, um {\it drum pad} serve como acompanhamento musical com diversas aplicações sejam elas para guiar um músico, acompanhar o ritmo com alguma percussão ou até reproduzir detalhes específicos que o usuário pode não conseguir no momento correto.
 
-Descreva como sua proposta pretende oferecer uma solução barata e de
-fácil uso usando visão artificial, o que ela poderia oferecer quando
-comparada à solução física e como softwares livres podem facilmente
-interagir com a solução proposta.
+Apesar de ser um periférico de fácil utilização e de rápida adaptabilidade, ainda depende da capacidade do usuário em reproduzir as notas no tempo correto e principalmente da capacidade que o usuário tem em investir num equipamento do tipo, variando de cerca de 50 dólares, podendo chegar a mais de 600 dólares, dependendo do seu tamanho, sua funções, caracterísitcas, inovações e acabamento.
+
+A proposta do projeto apresentado neste trabalho de conclusão de curso é de facilitar a programação de uma sequência de sons que um usuário venha querer utilizar para qualquer propósito que seja, principalmente os descritos anteriormente. Com apenas uma webcam de cerca de 60 dólares, uma folha de papel e um programa de computador que utiliza conceitos de visão artificial, o usuário é capaz de programar, de forma interativa, uma sequência de sons provenientes de um sintetizador midi, que será reproduzida em um tempo determinado sem depender, por exemplo, de suas próprias habilidades rítmicas, a partir de marcações feitas na folha.
 
 No capítulo XX serão apresentados..., no capítulo XX será mostrado
 ... . O capítulo XX discorre sobre.... blá, blá, blá...
@@ -274,12 +271,28 @@ No capítulo XX serão apresentados..., no capítulo XX será mostrado
 \chapter{Materiais e métodos}
 \label{cha:fund-teor}
 
-Descreva os principais algoritmos e tecnologias que utilizaste para
-desenvolver a ferramenta, introduzindo a priori seu modelo de
-PAD. Apresente a figura do pad, porque ela foi construída dessa forma
-e descreva os algoritmos que escolheu para identificar as partes de
-interesse no seu pad virtual. Nesse momento, ESQUEÇA que tudo foi
-feito usando OpenCV, com destaque APENAS para os algoritmos.
+\section{Modelo para interpretação}
+
+Como muitas aplicações que envolvam conceitos de visão artificial, é necessário um ambiente controlado de onde se possa extrair as informações necessárias para o funcionamento do programa de computador. Para isso, foi necessária a criação de um {\it layout} com elementos específicos que façam com que o ambiente seja bem interpretado pelo programa.
+
+IMAGEM DO LAYOUT
+
+As principais características do {\it layout} para que haja a interação com o programa de computador são os  marcadores nos cantos da folha e o código de barras. Tendo em vista que, nesse modelo, sempre haverão 13 notas distintas que podem ser reproduzidas, o código de barras é utilizado para guardar a informação de quantas notas o programa pode reproduzir, sem haver a necessidade do usuário especificá-la já que não faria sentido o modelo ter, por exemplo, uma área quadriculada de 13x8 e o usuário configurar que o essa área tem uma distribuição diferente da real. Além do código de barras, são utilizados marcadores nos cantos da folha que, ao serem interpretados, mostram a imagem final que o programa utilizará como fonte de interpretação.
+
+\section{Algoritmo}
+
+Partindo da imagem capturada da câmera do usuário, o programa procura os marcadores dos cantos da folha, o código de barras e os interpreta guardando as informações necessárias. Essas verificações acontecem a cada frame capturado pela câmera para manter a integridade com a imagem de tempo real.
+Com pontos capturados a partir dos marcadores, é selecionada a área de interesse da folha que o programa deverá interpretar ao sinal do usuário.
+
+IMAGEM DA ÁREA DO MEIO DA FOLHA
+
+Com a informação de quantas colunas existem na área quadriculada, adquirida do código de barras presente na folha, a próxima etapa executada pelo algoritmo é de verficiar, em cada um dos retângulos da área de interesse, se há dois tipos de marcações diferentes: uma representa um son que só tocará naquele momento e a outra representa a continuidade do som, permitindo que ela seja reproduzido durante o tempo desejado pelo usuário.
+
+IMAGEM DA MARCAÇÃO SOZINHA E IMAGEM DA MARCAÇÃO CONTINUADA (LADO A LADO)
+
+A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí.
+
+\section{Protocolo MIDI}
 
 Assuntos a serem abordados:
 

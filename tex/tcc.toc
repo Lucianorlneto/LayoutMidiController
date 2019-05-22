@@ -1,0 +1,11 @@
+\babel@toc {english}{}
+\babel@toc {brazil}{}
+\babel@toc {english}{}
+\babel@toc {brazil}{}
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Materiais e m\IeC {\'e}todos}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Modelo para interpreta\IeC {\c c}\IeC {\~a}o}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Algoritmo}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}Protocolo MIDI}{4}{section.2.3}
+\contentsline {chapter}{\numberline {3}Resultados}{5}{chapter.3}
+\contentsline {chapter}{\numberline {4}Conclus\IeC {\~o}es}{6}{chapter.4}
