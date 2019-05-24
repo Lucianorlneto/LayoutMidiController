@@ -268,10 +268,10 @@ A proposta do projeto apresentado neste trabalho de conclusão de curso é de fa
 No capítulo XX serão apresentados..., no capítulo XX será mostrado
 ... . O capítulo XX discorre sobre.... blá, blá, blá...
 
-\chapter{Materiais e métodos}
+\chapter{Materiais e Métodos}
 \label{cha:fund-teor}
 
-\section{Modelo para interpretação}
+\section{Modelo para Interpretação}
 
 Como muitas aplicações que envolvam conceitos de visão artificial, é necessário um ambiente controlado de onde se possa extrair as informações necessárias para o funcionamento do programa de computador. Para isso, foi necessária a criação de um {\it layout} com elementos específicos que façam com que o ambiente seja bem interpretado pelo programa.
 
@@ -292,12 +292,63 @@ IMAGEM DA MARCAÇÃO SOZINHA E IMAGEM DA MARCAÇÃO CONTINUADA (LADO A LADO)
 
 A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí.
 
+A ordem de disposição das notas foi escolhida da maneira como mostrada na imagem (REFERENCIA A IMAGEM) pois é o mais próximo de como uma "pista" MIDI é representada em softwares profissionais de gravação de músicas, denominados DAW ({\it Digital Audio Workstation}),quando o usuário utiliza recursos MIDI, como se pode ver na imagem abaixo:
+
+IMAGEM DO REAPER DE UMA MIDI TRACK
+
+Também podemos interpretar o layout como um gráfico num simples plano cartesiano. O gráfico representa frequência \times\ tempo e é digital e discreto, fazendo com que a posição da marcação represente uma frequência num intervalo de tempo. Essa interpretação pode ser representada da seguinte maneira:
+
+IMAGEM DO LAYOUT COM MARCAÇÕES E GRÁFICO LADO A LADO
+
 \section{Protocolo MIDI}
 
-Assuntos a serem abordados:
+O Protocolo MIDI é o principal responsável pela reprodução dos sons de sintetizadores e sequenciadores MIDI e, sendo um protocolo, é universal, ou seja, independe do fabricante do sintetizador ou sequenciador uma vez seguido de maneira correta. Apesar de bastante extenso e complexo, serão explicadas aqui apenas conceitos que foram utilizados no desenvolvimento do projeto.
 
-- O formato MIDI para comunicação entre Controlador e Sintetizador
-(coloque uma seção só para isso. Quero aprender como funciona! :) )
+Esse protocolo consiste na troca de "mensagens MIDI" entre o software ou hardware controlador, que controla os sons, e do software ou hardware sintetizador, que sintetiza os sons. É utilizado para transmissão de informação em tempo real entre controlador e sintetizador a fim de gerar sons quando o usuário desejar.
+
+Essas mensagens baseam-se em um conjunto de um ou mais {\it bytes}, onde o primeiro {\it byte} se classifica como {\it STATUS byte}, o qual define o tipo da mensagem, e é geralmente seguido por outros {\it bytes} chamados {\it DATA bytes}, os quais dão as características desejadas para a mensagem.
+
+Existem diversos tipos de mensagens, mostradas na tabela (REFERENCIA TABELA) e de forma expandida na tabela (REFERENCIA TABELA), extraídas diretamente da {\it The MIDI Association} (www.midi.org), principal portal com informações do protocolo MIDI, porém, para o desenvolvimento do projeto descrito nesta tese de conclusão de curso, foram utilizadas bascicamente as mensagens chamadas {\it Note ON} e {\it Note OFF}, que especificam quando uma nota deve ser ativada e desativada, além de mensagens padrão de configuração disponibilizadas pela biblioteca rtmidi que foi escolhida a fim de facilitar a comunicação do software com sintetizadores livres.
+
+As mensagens de ativação e desativação do som são compostas por um conjunto de 3 {\it bytes} os quais são representados da seguinte forma:
+
+\begin{itemize}
+  \item A mensagem {\it Note ON}:
+  \begin{itemize}
+    \item {\it Status byte}: 1001 AAAA
+    \item {\it Data byte}: 0BBB BBBB
+    \item {\it Data byte}: 0CCC CCCC
+  \end{itemize}
+\end{itemize}
+
+Onde AAAA representa o canal que está mensagem controlará, variando entre 16 canais distintos, BBBBBBB representa o {\it pitch} que será reproduzido e CCCCCCC representa a velocidade que a nota será reproduzida que, em notação musical, temos essas velocidades da seguinte maneira:
+
+IMAGEM DAS VELOCIDADES
+
+Essa velocidade de reprodução, dependendo do tipo de instrumento selecionado, também varia a dinâmica que o som é reproduzido como quando uma nota de um piano é pressionada de forma brusca ou mais suave.
+
+\begin{itemize}
+  \item A mensagem {\it Note OFF}:
+  \begin{itemize}
+    \item {\it Status byte}: 1000 AAAA
+    \item {\it Data byte}: 0BBB BBBB
+    \item {\it Data byte}: 0DDD DDDD
+  \end{itemize}
+\end{itemize}
+
+Para as mensagens {\it Note OFF}, os {\it bits} AAAA e BBBBBBB representam o mesmo da mensagem de ativação da nota sendo diferente apenas no terceiro {\it byte}, o DDDDDDD, que representa a velocidade de {\it release} do som, ou seja, a suavização até ele ser desligado.
+
+\section{Marcadores Aruco}
+
+A funcionalidade do software projetado nesta tese depende intrinsecamente da AOI ({\it area of interest}) do {\it layout}, que é a área quadriculada da folha e, para se adquirir essa área de interesse da imagem inicial, foi de grande importância a utilização dos marcadores Aruco. Marcadores gerados pela biblioteca de visão artificial OpenCv que, devido a forma como foi desenvolvido, é de rápida e precisa identificação em uma imagem.
+
+FALAR SOBRE OS MARCADORES ARUCO E COMO SÃO IDENTIFICADOS PELO OPENCV
+
+Outra forma de identificação que foi testada no projeto foi por cores em círculos coloridos posicionados no canto da folha. Devido à diversas variáveis de ambiente, essas cores poderiam variar de usuário para usuário, local para local, câmera para câmera entre outros, o que tornava necessária a marcação das cores ser feita manualmente pelo usuário com o propósito de haver um cálculo da média da cores dos círculos para sua identificação e, devido a essa inconsistência ao utilizar cores, a ideia foi descartada. O modelo anterior pode ser visto abaixo:
+
+IMAGEM DO MODELO COM OS CÍRCULOS
+
+Assuntos a serem abordados:
 
 - O processo de seleção de cores dos cantos da imagem. Salientar que
 os marcadores existem para permitir a transformação de perspectiva.
@@ -310,12 +361,15 @@ explicando um bê-a-bá do uso do modelo é bem vinda. :)))
 
 - Descrever o uso da classe RtMidi, porque foi escolhida e como se dá
 sua utilização.
+Para a utilização do protocolo MIDI e para a comunicação entre sintetizadores, foi escolhida a biblioteca RtMidi para a linguagem de programação C++. Toda a transmissão e criação das mensagens foi abstraída durante o desenvolvimento do projeto graças a funcionalidades da biblioteca.
 
 - Descrever o sintetizador usado nos experimentos (QSynth).
 
 - Descrever como se dá, no Linux, a interligação entre seu software
 Controlador e o Sintetizador. Um diagrama legal feito no inkscape
 cairia bem nesse canto.
+O diagrama a seguir representa como o software controlador se comunica com um sintetizador
+DIAGRAMA (MIDI INPUT, OUPUT, SOFTWARE CONTROLADOR E SINTETIZADOR)
 
 \chapter{Resultados}
 \label{cha:resultados}

@@ -1,0 +1,14 @@
+https://www.midi.org/specifications-old/category/reference-tables
+
+tabela das mensagens:
+https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message
+
+tabela das mensagens expandida:
+https://www.midi.org/specifications-old/item/table-2-expanded-messages-list-status-bytes
+
+
+midi language tutorial:
+http://www.music-software-development.com/midi-tutorial.html
+
+aruco:
+https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html
