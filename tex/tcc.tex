@@ -268,10 +268,8 @@ A proposta do projeto apresentado neste trabalho de conclusão de curso é de fa
 No capítulo XX serão apresentados..., no capítulo XX será mostrado
 ... . O capítulo XX discorre sobre.... blá, blá, blá...
 
-\chapter{Materiais e Métodos}
+\chapter{Modelo para Interpretação}
 \label{cha:fund-teor}
-
-\section{Modelo para Interpretação}
 
 Como muitas aplicações que envolvam conceitos de visão artificial, é necessário um ambiente controlado de onde se possa extrair as informações necessárias para o funcionamento do programa de computador. Para isso, foi necessária a criação de um {\it layout} com elementos específicos que façam com que o ambiente seja bem interpretado pelo programa.
 
@@ -279,7 +277,8 @@ IMAGEM DO LAYOUT
 
 As principais características do {\it layout} para que haja a interação com o programa de computador são os  marcadores nos cantos da folha e o código de barras. Tendo em vista que, nesse modelo, sempre haverão 13 notas distintas que podem ser reproduzidas, o código de barras é utilizado para guardar a informação de quantas notas o programa pode reproduzir, sem haver a necessidade do usuário especificá-la já que não faria sentido o modelo ter, por exemplo, uma área quadriculada de 13x8 e o usuário configurar que o essa área tem uma distribuição diferente da real. Além do código de barras, são utilizados marcadores nos cantos da folha que, ao serem interpretados, mostram a imagem final que o programa utilizará como fonte de interpretação.
 
-\section{Algoritmo}
+\chapter{Algoritmo}
+\label{cha:fund-teor}
 
 Partindo da imagem capturada da câmera do usuário, o programa procura os marcadores dos cantos da folha, o código de barras e os interpreta guardando as informações necessárias. Essas verificações acontecem a cada frame capturado pela câmera para manter a integridade com a imagem de tempo real.
 Com pontos capturados a partir dos marcadores, é selecionada a área de interesse da folha que o programa deverá interpretar ao sinal do usuário.
@@ -300,7 +299,8 @@ Também podemos interpretar o layout como um gráfico num simples plano cartesia
 
 IMAGEM DO LAYOUT COM MARCAÇÕES E GRÁFICO LADO A LADO
 
-\section{Protocolo MIDI}
+\chapter{Protocolo MIDI}
+\label{cha:fund-teor}
 
 O Protocolo MIDI é o principal responsável pela reprodução dos sons de sintetizadores e sequenciadores MIDI e, sendo um protocolo, é universal, ou seja, independe do fabricante do sintetizador ou sequenciador uma vez seguido de maneira correta. Apesar de bastante extenso e complexo, serão explicadas aqui apenas conceitos que foram utilizados no desenvolvimento do projeto.
 
@@ -338,21 +338,38 @@ Essa velocidade de reprodução, dependendo do tipo de instrumento selecionado, 
 
 Para as mensagens {\it Note OFF}, os {\it bits} AAAA e BBBBBBB representam o mesmo da mensagem de ativação da nota sendo diferente apenas no terceiro {\it byte}, o DDDDDDD, que representa a velocidade de {\it release} do som, ou seja, a suavização até ele ser desligado.
 
-\section{Marcadores Aruco}
+\chapter{Marcadores ArUco}
+\label{cha:fund-teor}
 
-A funcionalidade do software projetado nesta tese depende intrinsecamente da AOI ({\it area of interest}) do {\it layout}, que é a área quadriculada da folha e, para se adquirir essa área de interesse da imagem inicial, foi de grande importância a utilização dos marcadores Aruco. Marcadores gerados pela biblioteca de visão artificial OpenCv que, devido a forma como foi desenvolvido, é de rápida e precisa identificação em uma imagem.
+A funcionalidade do software projetado nesta tese depende intrinsecamente da AOI ({\it area of interest}) do {\it layout} e, para se adquirir essa área de interesse da imagem inicial, uma das soluções mais comuns é a utilização de marcadores fiduciais quadrados binários. O principal benefício em se utilizar marcadores do tipo é de se obter, a partir dos quatro cantos de um único marcador, a {\it camera pose}, ou seja, tanto a orientação quanto a posição da câmera no ambiente.
 
-FALAR SOBRE OS MARCADORES ARUCO E COMO SÃO IDENTIFICADOS PELO OPENCV
+No desenvolvimento deste projeto foi escolhido o módulo Aruco da biblioteca de visão artificial OpenCv para geração e identificação desses marcadores.O módulo Aruco é baseado na biblioteca ArUco, uma popular biblioteca utilizada para detecção de marcadores fiduciais quadrados, desenvolvida por Rafael Muñoz e Sergio Garrido, em aplicações de realidade aumentada.
+
+A partir do módulo Aruco, pode-se gerar marcadores ArUco que consistem em marcadores quadrados compostos por uma larga borda da cor preta e uma matriz binária intríseca ao marcador, que determina seu identificador. As bordas existem para facilitar a detecção do marcador em uma imagem e a codificação da matriz binária para permitir a detecção desse marcador com intuíto de serem aplicadas outras técnicas de visão artifial. Abaixo temos alguns exemplos de marcadores ArUco:
+
+IMAGEM MARCADORES ARUCO
+
+Com uma detecção rápida e precisa desses marcadores, feita pela biblioteca OpenCv, foram escolhidos quatro identificadores que simbolizam os cantos da folha modelo e o software, ao decodificar os quatro marcadores, dependendo do seu identificador, são selecionados 4 pontos, um de cada marcador, a fim de adquirir a área de interesse da folha para o software.
+
+IMAGEM DOS QUATRO PONTOS IDENTIFICADOS
+
+Com a área de interesse adquirida, é aplicada uma transformação de perspectiva nessa nova imagem a fim de  desprezar distorções causadas pelo posicionamento da câmera, uma vez que esta nova imagem que será analizada pelo software precisa ser paralela à folha, o que é possível a partir de diferentes ângulos, isso se os quatro marcadores forem visíveis, graças a transformação de perspectiva, fazendo o usuário manusear o software de forma mais confortável.
 
 Outra forma de identificação que foi testada no projeto foi por cores em círculos coloridos posicionados no canto da folha. Devido à diversas variáveis de ambiente, essas cores poderiam variar de usuário para usuário, local para local, câmera para câmera entre outros, o que tornava necessária a marcação das cores ser feita manualmente pelo usuário com o propósito de haver um cálculo da média da cores dos círculos para sua identificação e, devido a essa inconsistência ao utilizar cores, a ideia foi descartada. O modelo anterior pode ser visto abaixo:
 
 IMAGEM DO MODELO COM OS CÍRCULOS
 
+
+\chapter{Transformação de Perspectiva}
+\label{cha:fund-teor}
+
+Para o software interpretar a imagem de forma correta, é necessário que ela seja paralela à câmera, tornando desconfortável a sua utilização. Uma maneira de solucionar esse problema foi utilizar uma transformada de perspectiva, desprezando os problemas gerados para imagens capturadas de posições que não sejam paralelas à câmera que está capturando o ambiente.
+
+Graças à biblioteca OpenCv, essa manipulação é de rápida e fácil aplicação, precisando-se apenas de quatro pontos de referência na imagem original e uma nova matriz imagem resultado.
+
+
+
 Assuntos a serem abordados:
-
-- O processo de seleção de cores dos cantos da imagem. Salientar que
-os marcadores existem para permitir a transformação de perspectiva.
-
 - Descrever a MATEMÁTICA envolvida nessa transformação 
 
 - Descrever COMO o usuário deve usar o quadriculado para selecionar as

@@ -12,3 +12,6 @@ http://www.music-software-development.com/midi-tutorial.html
 
 aruco:
 https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html
+
+matriz de perspectiva:
+https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix
