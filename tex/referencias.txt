@@ -15,3 +15,10 @@ https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html
 
 matriz de perspectiva:
 https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix
+http://opencvexamples.blogspot.com/2014/01/perspective-transform.html
+https://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html
+
+rtmidi:
+https://github.com/thestk/rtmidi
+http://www.music.mcgill.ca/~gary/rtmidi/
+
