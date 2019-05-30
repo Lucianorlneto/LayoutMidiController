@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.5.19)  27 MAY 2019 22:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.5.19)  29 MAY 2019 23:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1409,6 +1409,9 @@ LaTeX Warning: Label `cha:fund-teor' multiply defined.
 
 LaTeX Warning: Label `cha:fund-teor' multiply defined.
 
+
+LaTeX Warning: Label `cha:fund-teor' multiply defined.
+
 )
 \openout1 = `tcc.aux'.
 
@@ -1728,52 +1731,47 @@ Cap\'{\i }tulo 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 302.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 314.
+(babel)             in language  on input line 313.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 314.
+(babel)             in language  on input line 313.
 [6
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 316.
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 315.
 
  (/usr/share/texmf/tex/latex/lm/omslmr.fd
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 316.
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 315.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 341.
+(babel)             in language  on input line 350.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 341.
+(babel)             in language  on input line 350.
  [7]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 355.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 355.
+ [8]
 Cap\'{\i }tulo 5.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 341.
+(babel)             in language  on input line 355.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 356.
+(babel)             in language  on input line 370.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 356.
-[8
+(babel)             in language  on input line 370.
+[9
 
 ]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 363.
+(babel)             in language  on input line 377.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 363.
- [9]
+(babel)             in language  on input line 377.
+ [10]
 Cap\'{\i }tulo 6.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 363.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 375.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 375.
-[10
-
-]
-Cap\'{\i }tulo 7.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 375.
+(babel)             in language  on input line 377.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 389.
 Package babel Info: Redefining portuges shorthand "|
@@ -1781,66 +1779,75 @@ Package babel Info: Redefining portuges shorthand "|
 [11
 
 ]
+Cap\'{\i }tulo 7.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 389.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 403.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 403.
- [12]
-Cap\'{\i }tulo 8.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 403.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 417.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 417.
-[13
+[12
 
 ]
-Cap\'{\i }tulo 9.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 417.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 434.
+(babel)             in language  on input line 417.
+ [13]
+Cap\'{\i }tulo 8.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 434.
+(babel)             in language  on input line 417.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 425.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 425.
 [14
+
+]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 437.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 437.
+ [15]
+Cap\'{\i }tulo 9.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 437.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 454.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 454.
+[16
 
 ]
 Cap\'{\i }tulo 10.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 434.
+(babel)             in language  on input line 454.
 No file tcc.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 445.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 465.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 445.
+(babel)             in language  on input line 465.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 445.
-[15
+(babel)             in language  on input line 465.
+[17
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 445.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 465.
  (./tcc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 445.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 445.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 465.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 465.
+Package rerunfilecheck Info: File `tcc.out' has not changed.
+(rerunfilecheck)             Checksum: F33D742C3F2F355BC274CE5BE2B34AFF;536.
 
-
-Package rerunfilecheck Warning: File `tcc.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `tcc.out':
-(rerunfilecheck)             Before: 155938202B3D4E628B58E74BC587D821;423
-(rerunfilecheck)             After:  F33D742C3F2F355BC274CE5BE2B34AFF;536.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 445.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 465.
  ) 
 Here is how much of TeX's memory you used:
- 23179 strings out of 492982
- 429653 string characters out of 6134896
- 628448 words of memory out of 5000000
- 26421 multiletter control sequences out of 15000+600000
+ 23183 strings out of 492982
+ 429690 string characters out of 6134896
+ 629445 words of memory out of 5000000
+ 26423 multiletter control sequences out of 15000+600000
  577896 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,6n,38p,10340b,433s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1852,10 +1859,10 @@ mf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr
 10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/font
 s/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb
 >
-Output written on tcc.pdf (22 pages, 159840 bytes).
+Output written on tcc.pdf (24 pages, 163299 bytes).
 PDF statistics:
- 180 PDF objects out of 1000 (max. 8388607)
- 147 compressed objects within 2 object streams
- 29 named destinations out of 1000 (max. 500000)
- 65 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 197 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 
