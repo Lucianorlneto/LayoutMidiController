@@ -9,6 +9,7 @@ https://www.midi.org/specifications-old/item/table-2-expanded-messages-list-stat
 
 midi language tutorial:
 http://www.music-software-development.com/midi-tutorial.html
+https://www.midi.org/articles-old/about-midi-part-3-midi-messages
 
 aruco:
 https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html
