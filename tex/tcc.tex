@@ -322,7 +322,12 @@ As mensagens de ativação e desativação do som são compostas por um conjunto
 
 Onde nnnn representa o canal que esta mensagem controlará, variando entre 16 canais distintos, kkkkkkk representa o {\it pitch} que será reproduzido e vvvvvvv representa a velocidade que a nota será reproduzida que, em notação musical, temos essas velocidades da seguinte maneira:
 
-IMAGEM DAS VELOCIDADES
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.1\textwidth]{imagens/nuance-velocity-table.jpg}
+    \caption{Velocidades em notação musical e seus respectivos valores para a mensagem {\it Note On}}
+  \label{fig:Velocidades em notação musical}
+\end{figure}
 
 Essa velocidade de reprodução, dependendo do tipo de instrumento selecionado, também varia a dinâmica que o som é reproduzido como quando uma nota de um piano é pressionada de forma brusca ou mais suave.
 \begin{itemize}
@@ -338,7 +343,7 @@ Para as mensagens {\it Note OFF}, os {\it bits} nnnn e kkkkkkk representam o mes
 
 A mensagem de alteração de valores dos controladores é representada da seguinte maneira:
 \begin{itemize}
-  \item A mensagem {\it Note OFF}:
+  \item A mensagem {\it Control Change}:
   \begin{itemize}
     \item {\it Status byte}: 1000 nnnn
     \item {\it Data byte}: 0ccc cccc
@@ -389,7 +394,7 @@ Assuntos a serem abordados:
 \chapter{Como Utilizar o Software}
 \label{cha:fund-teor}
 
-Ao se iniciar o software é necessário passar três parâmetros iniciais na sua execução. O primeiro é o identificador da entrada de vídeo do usuário para a cena ser capturada com a câmetra correta caso haja mais de uma conectada.
+Ao se iniciar o software, é necessário passar três parâmetros iniciais na sua execução. O primeiro é o identificador da entrada de vídeo do usuário para a cena ser capturada com a câmetra correta caso haja mais de uma conectada.
 
 O segundo é a velocidade de notas por minuto reproduzidas pelo software. Devido à limitação de tamanho de apenas uma folha A4, seria inviável a separação da folha em um compasso indicado pelo usuário, que é uma forma de se dividir sons com base em batidas e pausas, podendo-se utilizar, com o compasso definido, a notação mais comum utilizada em músicas que é o bpm (batidas por minuto). Uma vez com essa limitação,foi escolhida a notação de notas por minuto a fim do usuário controlar a velocidade de reprodução de cada espaço de tempo do modelo da folha. Abaixo podemos ver o modelo dividido num compasso 4/4 com intervalos de semicolcheia, ou seja, intervalos com metade do tempo de cada intervalo originalmente.
 
@@ -399,7 +404,7 @@ Podemos ver que, dependendo do que o usuário definisse, a espaço livre para as
 
 O terceiro é a oitava que será reproduzida no software. A oitava, na teoria musical, representa uma nota com o dobro ou metade de sua frequência. É quando a nota será, apesar de ter uma frequência maior ou menor que a nota de referência, a mesma e se chama oitava devido ao fato de, na representação mais comum das notas (dó, ré, mi, fá, sol, lá, sí), ela seria a oitava nota, que seria a mesma da primeira porém com uma frequência dobrada, ou seja: dó (oitava x), ré, mí, fá, sol, lá, sí e dó (oitava x+1), onde o último só e a oitava nota em relação ao primeiro.
 
-Com esses paramêtros definidos, o software inicia-se e lista todas as saídas midi disponíveis no momento para o usuário escolher a que o software enviará as mensagens do protocolo. Os parâmetros iniciais informados pelo usuário ao iniciar o software são apenas para configuraão inicial do ambiente, porém, ao iniciar-se o software de maneira correta, são editáveis a partir do clique de teclas específicas informadas pelo programa.
+Com esses paramêtros definidos, o software inicia-se e lista todas as entradas midi disponíveis no momento para o usuário escolher a que o software enviará as mensagens do protocolo. Os parâmetros iniciais informados pelo usuário ao iniciar o software são apenas para configuraão inicial do ambiente, porém, ao iniciar-se o software de maneira correta, são editáveis a partir do clique de teclas específicas informadas pelo programa.
 
 Após essas configurações iniciais, é preciso se cumprir, assim como outros softwares que utilizam conceitos de visão artificial, certas condições para o funcionamento correto do software projetado neste trabalho.
 Primeiramente precisa-se de condições de ambiente favoráveis à captura das imagens da câmera como iluminação da cena, principalmente de forma que a folha não fique muito escura ou com sombreados escuros, pois o filtro de branco utilizado na área de interesse pode identificar essas sombras como marcações, o prejudica no funcionamento do software. Outra condição é uma angulação da câmera de forma que se consiga visualizar os quatro marcadores ArUco e o código de barras presentes na folha. Marcações serão mostradas no vídeo quando os cinco elementos forem identificados de forma correta. Abaixo temos a imagem capturada pela câmera com as devidas marcações indicando que as instruções iniciais foram seguidas como o desejado:
@@ -410,29 +415,26 @@ A partir desse ponto, pode-se utilizar a barra de espaço para o software tocar 
 
 As marcações devem ser feitas sempre o mais centralizadas possível no retângulo que indica o espaço de tempo da sequência, sendo possível representar sons que vão continuar soando ou que vão parar no próximo intervalo de tempo com duas marcações distintas já mostradas no capítulo que destrincha o algoritmo utilizado.
 
-- Descrever COMO o usuário deve usar o quadriculado para selecionar as
-notas a serem tocadas. A propósito, um pouquinho de teoria musical
-explicando um bê-a-bá do uso do modelo é bem vinda. :)))
-
 \chapter{Biblioteca RtMidi}
 
 Como já visto no capítulo (capítulo do protocolo midi), o sintetizador escolhido pelo usuário precisa receber as mensagens enviadas pelo software e foi com auxílio da biblioteca RtMidi para a linguagem de programação C++ que foi possível abstrair todo o fluxo de troca de mensagens em simples funções disponibilizadas pela biblioteca.
 
 Para a utilização do protocolo MIDI e para a comunicação entre sintetizadores, foi escolhida a biblioteca RtMidi para a linguagem de programação C++. Toda a transmissão e criação das mensagens foi abstraída durante o desenvolvimento do projeto graças às funcionalidades da biblioteca e foi por esse motivo, além de ser Open Source, que ela foi escolhida para fazer parte do desenvolvimento do software.
 
-A biblioteca consiste em duas classes chamadas RtMidiOut e RtMidiIn. A classe RtMidiOut proporciona, para o desenvolvedor, funcionalidades simples para a imediata troca de mensagens MIDI entre dispositivos virtuais ou não conectados através de uma conexão MIDI. Com essas funcionalidades foi possível ocorrer o envio de mensagens para o sintetizador selecionado pelo usuário como uma saída MIDI com apenas o uso, após configurada essa saída, de uma função responsável exclusivamente pelo envio dessas mensagens. A outra classe, a RtMidiIn, apesar de não ter sido utilizada no software apresentado neste trabalho, utiliza uma função interna de callback ou thread para receber mensagens MIDI que são enviadas a partir de uma entrada MIDI selecionável e as lendo, transformando no formato utilizado pela biblioteca, ou repassando-a imediatamente para uma função de callback especificada pelo usuário, o que tornaria possível, por exemplo, o software reproduzir, num sintetizador digital, o que foi enviado a partir de um controlador físico conectado à máquina do usuário.
+A biblioteca consiste em duas classes chamadas RtMidiOut e RtMidiIn. A classe RtMidiOut proporciona, para o desenvolvedor, funcionalidades simples para a imediata troca de mensagens MIDI entre dispositivos virtuais ou não conectados através de uma conexão MIDI. Com essas funcionalidades foi possível ocorrer o envio de mensagens para o sintetizador selecionado pelo usuário como porta de entrada ou cliente para escrita da conexão midi com apenas o uso, após configurada essa entrada, de uma função responsável exclusivamente pelo envio dessas mensagens. A outra classe, RtMidiIn, apesar de não ter sido utilizada no software apresentado neste trabalho, utiliza uma função interna de callback ou thread para receber mensagens MIDI que são enviadas a partir de uma porta de saída MIDI selecionável e as lendo, transformando no formato utilizado pela biblioteca, ou repassando-a imediatamente para uma função de callback especificada pelo usuário, o que tornaria possível, por exemplo, o software reproduzir, num sintetizador digital, o que foi enviado a partir de um controlador físico conectado à máquina do usuário.
 
 Para o testes do software, foram utilizados 3 softwares de terceiros, sendo eles o QSynth, sintetizador virtual MIDI, o VMPK, outro sintetizador virtual MIDI mas também controlador, e o QJackCtl, um software que permite o usuário administrar as conexões MIDI entre saídas e entradas MIDI disponíveis na máquina.
 TUDO ABAIXO SERÁ EXPLICADO NESTE ÚTIMO CAPÍTULO
 
 - Descrever o sintetizador usado nos experimentos (QSynth).
 
+
 - Descrever como se dá, no Linux, a interligação entre seu software
 Controlador e o Sintetizador. Um diagrama legal feito no inkscape
 cairia bem nesse canto.
 O diagrama a seguir representa como o software controlador se comunica com um sintetizador
 DIAGRAMA (MIDI INPUT, OUPUT, SOFTWARE CONTROLADOR E SINTETIZADOR)
-BASICAMENTE SOFTWARE (CONTROLADOR) COMO INPUT LIGADO NO SINTETIZADOR (VMPK OU QSYNTH) COMO OUTPUT E A TROCA DE MENSAGENS OCORRE DO CONTROLADOR PARA O SINTETIZADOR.
+BASICAMENTE SOFTWARE (CONTROLADOR) COMO OUTPUT LIGADO NO SINTETIZADOR (VMPK OU QSYNTH) COMO INPUT E A TROCA DE MENSAGENS OCORRE DO CONTROLADOR PARA O SINTETIZADOR.
 
 \chapter{Resultados}
 \label{cha:resultados}
