@@ -227,7 +227,7 @@ int main(int argc, char** argv)
     }
     // Check outputs.
     nPorts = midiout->getPortCount();
-    cout << "Existem " << nPorts << " MIDI de saída disponíveis.\n";
+    cout << "Existem " << nPorts << " MIDI de entrada disponíveis.\n";
     for ( unsigned int i=0; i<nPorts; i++ ) {
         try {
           portName = midiout->getPortName(i);
@@ -244,11 +244,11 @@ int main(int argc, char** argv)
     midiout->openPort( portOut );
     // Send out a series of MIDI messages.
     // Program change: 192, 5
-    message.push_back( 192 );
-    message.push_back( 0 );
+    // message.push_back( 192 );
+    // message.push_back( 0 );
 
 
-    midiout->sendMessage( &message );
+    // midiout->sendMessage( &message );
     // Control Change: 176, 7, 100 (volume)
     message[0] = 176;
     message[1] = 7;
