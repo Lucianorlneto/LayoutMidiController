@@ -27,8 +27,12 @@
 #include <string.h>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
+#include <sstream>
 
 using namespace std;
+
+int arg1, arg2;
 
 /* Print out loading progress information */
 void progress_changed(wkhtmltopdf_converter * c, int p) {
@@ -115,7 +119,7 @@ void gera_pdf(){
 	wkhtmltopdf_deinit();
 }
 
-void gera_html(int linhas){
+void gera_html(int linhas, string result){
 	ofstream myfile;
 	myfile.open ("folha_criada.html");             
 	myfile <<
@@ -207,20 +211,39 @@ void gera_html(int linhas){
 	for (int i = 0; i < linhas; ++i)
 	{
 		myfile <<
-		"<tr>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
-		"<td></td>\n" <<
+		"<tr>\n";
+		if((i+1)%arg2 == 0){
+			myfile <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n" <<
+			"<td style='border-top: none; border-bottom: solid gray 1px'></td>\n";
+		}else{
+			myfile <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n" <<
+			"<td></td>\n";
+		}
+		myfile <<
 		"</tr>\n";
 	}
 	myfile << 
@@ -231,7 +254,7 @@ void gera_html(int linhas){
 
 	myfile <<
 	"<script type='text/javascript'>\n" <<
-	"$('#barcode').barcode('" << linhas << "000000', 'ean8', {\n" <<
+	"$('#barcode').barcode('" << result << "', 'ean8', {\n" <<
 	"showHRI: false,\n" <<
 	"barWidth: 5,\n" <<
 	"});\n" <<
@@ -243,9 +266,45 @@ void gera_html(int linhas){
 /* Main method convert pdf */
 int main(int argc, char** argv) {
 	
-	int linhas = atoi(argv[1]);
+	arg1 = atoi(argv[1]);
 
-	gera_html(linhas);
+	arg2 = atoi(argv[2]);
+
+	int linhas = arg1*arg2;
+
+	string result;          // string which will contain the result
+
+	ostringstream convert;   // stream used for the conversion
+
+	if(linhas < 10){
+		convert << "0" << linhas;
+	}else{
+		convert << linhas;
+	}
+
+	if(arg1 < 10){
+		convert << "0" << arg1;
+	}else{
+		convert << arg1;
+	}
+
+	if(arg2 < 10){
+		convert << "0" << arg2;
+	}else{
+		convert << arg2;
+	}
+
+	result = convert.str();
+
+	// cout << result.size() << endl;
+
+	while(result.size() < 8){
+		result.append("0");
+	};
+
+	// cout << result << endl;
+
+	gera_html(linhas, result);
 
 	gera_pdf();
 

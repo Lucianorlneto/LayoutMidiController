@@ -275,7 +275,7 @@ Como muitas aplicações que envolvam conceitos de visão artificial, é necess�
 
 IMAGEM DO LAYOUT
 
-As principais características do {\it layout} para que haja a interação com o programa de computador são os  marcadores nos cantos da folha e o código de barras. Tendo em vista que, nesse modelo, sempre haverão 13 notas distintas que podem ser reproduzidas, o código de barras é utilizado para guardar a informação de quantas notas o programa pode reproduzir, sem haver a necessidade do usuário especificá-la já que não faria sentido o modelo ter, por exemplo, uma área quadriculada de 13x8 e o usuário configurar que o essa área tem uma distribuição diferente da real. Além do código de barras, são utilizados marcadores nos cantos da folha que, ao serem interpretados, mostram a imagem final que o programa utilizará como fonte de interpretação.
+As principais características do {\it layout} para que haja a interação com o programa de computador são os  marcadores nos cantos da folha e o código de barras. Tendo em vista que, nesse modelo, sempre haverão 13 notas distintas que podem ser reproduzidas, o código de barras é utilizado para guardar a informação de quantas notas o programa pode reproduzir e sua fórmula de compasso, sem haver a necessidade do usuário especificá-las já que não faria sentido o modelo ter, por exemplo, uma área quadriculada de 13x8 e o usuário configurar que o essa área tem uma distribuição diferente da real ou uma fórmula de compasso que não corresponda ao modelo. Além do código de barras, são utilizados marcadores nos cantos da folha que, ao serem interpretados, mostram a imagem final que o programa utilizará como fonte de interpretação.
 
 \chapter{Algoritmo}
 \label{cha:fund-teor}
@@ -289,7 +289,11 @@ Com a informação de quantas colunas existem na área quadriculada, adquirida d
 
 IMAGEM DA MARCAÇÃO SOZINHA E IMAGEM DA MARCAÇÃO CONTINUADA (LADO A LADO)
 
-A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí.
+A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí. Isso tudo com um intervalo de tempo definido entre cada nota, devido à cálculos a partir da fórmula do compasso daquele modelo, extraída do código de barras da folha, e definida ao gerar o pdf a partir de um segundo programa criado para esse propósito.
+
+Os cálculos feitos para se obter o tempo de cada som é um simples cálculos utilizando a fórmula do compasso e o valor de batidas por minuto passado como parâmetro, pelo usuário, ao executar o software:
+
+CALCULO: tempo = 60/bpm, para se obter o número de batidas por segundo uma vez que as funções disponíveis no C++ para cálculo de tempo utilizam segundos. Após isso, o tempo de cada som precisa ser divido pelo denominador da fórmula do compasso, para que, em cada batida, sejam tocadas o número de notas definidos pela fórmula e pela convenção feita no desenvolvimento do software, que é a seguinte: para cada fórmula de compasso apresentada pelo usuário, cada retângulo do modelo da folha representará a metade da metade do tempo de uma nota, menos quando o denominador for o número um. Por exemplo: se o usuário passar uma fórmula de compasso 3/4, que representa que em um compasso haverá três semínimas, o modelo da folha, ao invés de 3 retângulos, uma para cada semínima possível, ou 48 colunas, uma para cada semifusa possível, terá 12 colunas, uma para cada semicolcheia. A partir da convenção e da fórmula do compasso, utilizando uma fórmula 3/4, teremos que, no tempo de cada batida serão reproduzidas 4 notas, ou seja, cada coluna tem um intervalo de tempo de 60/(bpm*denominador_formula)
 
 A ordem de disposição das notas foi escolhida da maneira como mostrada na imagem (REFERENCIA A IMAGEM) pois é o mais próximo de como uma "pista" MIDI é representada em softwares profissionais de gravação de músicas, denominados DAW ({\it Digital Audio Workstation}),quando o usuário utiliza recursos MIDI, como se pode ver na imagem abaixo:
 
@@ -396,9 +400,9 @@ Assuntos a serem abordados:
 
 Ao se iniciar o software, é necessário passar três parâmetros iniciais na sua execução. O primeiro é o identificador da entrada de vídeo do usuário para a cena ser capturada com a câmetra correta caso haja mais de uma conectada.
 
-O segundo é a velocidade de notas por minuto reproduzidas pelo software. Devido à limitação de tamanho de apenas uma folha A4, seria inviável a separação da folha em um compasso indicado pelo usuário, que é uma forma de se dividir sons com base em batidas e pausas, podendo-se utilizar, com o compasso definido, a notação mais comum utilizada em músicas que é o bpm (batidas por minuto). Uma vez com essa limitação,foi escolhida a notação de notas por minuto a fim do usuário controlar a velocidade de reprodução de cada espaço de tempo do modelo da folha. Abaixo podemos ver o modelo dividido num compasso 4/4 com intervalos de semicolcheia, ou seja, intervalos com metade do tempo de cada intervalo originalmente.
+O segundo é a velocidade de batidas por minuto (bpm) para o tempo de referência para reprodução das notas reproduzidas pelo software. Ao gerar o modelo da folha, o usuário deve passar os valores que formarão a fórmula do compasso para aquela folha em específico, porém, devido à limitação de espaço de uma folha A4, não é possível utilizar qualquer fórmula de compasso que se deseja. Um exemplo que faria com que o software apresentasse inconsistência pode ser encontrado abaixo:
 
-LAYOUT COM 8/4
+LAYOUT COM 4/16
 
 Podemos ver que, dependendo do que o usuário definisse, a espaço livre para as marcações do usuário seria mínio, prejudicando o funcionamento do software.
 

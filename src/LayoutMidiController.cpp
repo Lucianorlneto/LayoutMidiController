@@ -10,6 +10,8 @@
 #include <rtmidi/RtMidi.h>
 #include <unistd.h>
 #include <cstdlib>
+#include <time.h>
+#include <string>
 
 using namespace cv;
 using namespace std;
@@ -51,7 +53,11 @@ int n_objetos;
 int oitava;
 //string do código de barras
 string linhas_barcode_str = "";
+string barcode_str2 = "";
+string barcode_str3 = "";
 int linhas_barcode_int = 0;
+int barcode_int2 = 0;
+int barcode_int3 = 0;
 //vetor de ntoas anterioes que devem ser desligadas
 vector<int> notas_anteriores;
 //notas para serem mantidas ligadas
@@ -180,7 +186,7 @@ void shutNotes(){
     for (int i = 0; i < 13; ++i)
     {
         message[0] = MIDI_NOTEOFF;
-        message[1] = oitava*16+13-i;
+        message[1] = oitava*20+12-i;
         midiout->sendMessage( &message );
         noteon = false;
         notas_anteriores.clear();
@@ -195,13 +201,13 @@ int main(int argc, char** argv)
 {
     
     if(argc < 4){
-        cout << endl << "COMO PARÂMETROS DE ENTRADA, INFORME O ID DA FONTE DE VÍDEO, O NÚMERO DE NOTAS POR MINUTO E A OITAVA QUE DESEJA, NESSA ORDEM." << endl;
+        cout << endl << "COMO PARÂMETROS DE ENTRADA, INFORME O ID DA FONTE DE VÍDEO, O NÚMERO DE BATIDAS POR MINUTO (bpm) E A OITAVA QUE DESEJA, NESSA ORDEM." << endl;
         cout << "Ex.: ./LayouMidiController 0 280 3." << endl << endl;
         return 0;
     }
 
     cout << "VIDEO SOURCE: " << argv[1] << endl;
-    cout << "NOTAS POR MINUTO: " << argv[2] << endl;
+    cout << "BATIDAS POR MINUTO: " << argv[2] << endl;
     cout << "OITAVA: " << argv[3] << endl << endl;
     // cout << "OpenCV version : " << CV_VERSION << endl;
 
@@ -244,25 +250,24 @@ int main(int argc, char** argv)
     midiout->openPort( portOut );
     // Send out a series of MIDI messages.
     // Program change: 192, 5
-    // message.push_back( 192 );
-    // message.push_back( 0 );
+    message.push_back( 192 );
+    message.push_back( 0 );
 
 
-    // midiout->sendMessage( &message );
+    midiout->sendMessage( &message );
     // Control Change: 176, 7, 100 (volume)
     message[0] = 176;
     message[1] = 7;
     message.push_back( 100 );
     midiout->sendMessage( &message );
 
-
-    //CÁLCULOS DE TEMPO (NOTAS POR SEGUNDO)
+    //CÁLCULOS DE TEMPO (BATIDAS POR SEGUNDO)
     string bpm_string = argv[2];
     int bpm = 0;
     bpm = stoi(bpm_string);
     float tempo = 60.0/(float)bpm;
     float tempo_linha = 0;
-    tempo_linha = (tempo*1000000);
+    tempo_linha = (((tempo)*1000000));
     string oitava_char = argv[3];
     oitava = 0;
     oitava = stoi(oitava_char);
@@ -319,13 +324,20 @@ int main(int argc, char** argv)
                 if(decodificado == false){
                     decode(src, decodedObjects);
                     if(n_objetos > 0){
-                        if(decodedObjects[0].data[1] == '0'){
-                            linhas_barcode_str = decodedObjects[0].data.substr(0, 1);
-                        }else{
-                            linhas_barcode_str = decodedObjects[0].data.substr(0, 2);
-                        }
-                        // cout << colunas_barcode << endl;
+                        linhas_barcode_str = decodedObjects[0].data[0];
+                        linhas_barcode_str = linhas_barcode_str + decodedObjects[0].data[1];
+                        // cout << linhas_barcode_str << endl;
                         linhas_barcode_int = stoi(linhas_barcode_str);
+
+                        barcode_str2 = decodedObjects[0].data[2];
+                        barcode_str2 = barcode_str2 + decodedObjects[0].data[3];
+                        // cout << barcode_str2 << endl;
+                        barcode_int2 = stoi(barcode_str2);
+
+                        barcode_str3 = decodedObjects[0].data[4];
+                        barcode_str3 = barcode_str3 + decodedObjects[0].data[5];
+                        // cout << barcode_str3 << endl;
+                        barcode_int3 = stoi(barcode_str3);
                     }
                 }
 
@@ -354,122 +366,138 @@ int main(int argc, char** argv)
                 string nota = "";
                 shutNotes();
                 imshow("Transformada",destinationImage);
+                tempo = 60.0/(float)bpm;
+                tempo_linha = (tempo*1000000);
+                tempo_linha = tempo_linha/(float)barcode_int3;
                 //copia para desenhar marcações da imagem transformada
                 destinationImage.copyTo(destinationImage2);
-                for (i = 0; i < linhas_barcode_int; ++i)
-                {
-                    //SE TIVER ALGUMA NOTA LIGADA E ELA ESTIVER NO VETOR DE NOTAS ANTERIOES, DESLIGÁ-LA
-                    if(noteon == true){
-                        for (int i = 0; i < (int)notas_anteriores.size(); ++i)
-                        {
-                            message[0] = MIDI_NOTEOFF;
-                            message[1] = notas_anteriores[i];
-                            midiout->sendMessage( &message );
-                            noteon = false;
-                            tocada[notas_anteriores[i]] = false;
-                            // cout << "apagou nota " << notas_anteriores[i] << endl;
-                            notas_anteriores.erase(notas_anteriores.begin() + i);
-                        }
-                        // notas_anteriores.clear();
-                    }
-
-                    //SEPARAR GRID TRANSFORMADO EM POSIÇÕES PARA NOTAS
-                    for (j = 0; j < 13; ++j)
+                while(stop == false){
+                    for (i = 0; i < linhas_barcode_int; ++i)
                     {
-                        //PRÓXIMA CÉLULA DO GRID NA ORDEM
-                        celula = destinationImage(Rect((int)i*((float)destinationImage.rows/13), (int)(j*((float)destinationImage.cols/linhas_barcode_int)), (int)((float)destinationImage.rows/13), (int)((float)destinationImage.cols/linhas_barcode_int)));
-
-                        //DESENHAR CÉLULAS LIDAS
-                        rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 3);
-                        imshow("Transformada",destinationImage2);
-
-
-                        //FILTRAR O BRANCO DA CÉLULA
-                        inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
-
-                        //POSIÇÕES PARA IDENTIFICAR SE HÁ ALGO DIFERENTE DE BRANCO NO CENTRO DA CÉLULA
-                        for (int y = 11; y < mask1.rows-11; ++y)
-                        {
-                            for (int x = 11; x < mask1.cols-11; ++x)
+                        //SE TIVER ALGUMA NOTA LIGADA E ELA ESTIVER NO VETOR DE NOTAS ANTERIOES, DESLIGÁ-LA
+                        if(noteon == true){
+                            for (int i = 0; i < (int)notas_anteriores.size(); ++i)
                             {
-                                //VERIFICA SE O PIXEL ATUAL É PRETO
-                                Scalar colour = mask1.at<uchar>(Point(x, y));
-                                if(colour.val[0]==0){
-                                    //SE O PIXEL FOR PRETO, LIGAR NOTA
-                                    azul = true;
+                                message[0] = MIDI_NOTEOFF;
+                                message[1] = notas_anteriores[i];
+                                midiout->sendMessage( &message );
+                                noteon = false;
+                                tocada[notas_anteriores[i]] = false;
+                                // cout << "apagou nota " << notas_anteriores[i] << endl;
+                                notas_anteriores.erase(notas_anteriores.begin() + i);
+                            }
+                            // notas_anteriores.clear();
+                        }
 
-                                    //IDENTIFICAR SE A NOTA TOCANDO NO MOMENTO SERÁ DESLIGADA
-                                    bool tem_nota = false;
-                                    for (int a = 0; a < (int)notas_anteriores.size(); ++a)
-                                    {
-                                        if(notas_anteriores[a] == oitava*16+13-j){
-                                            tem_nota = true;
+                        //SEPARAR GRID TRANSFORMADO EM POSIÇÕES PARA NOTAS
+                        for (j = 0; j < 13; ++j)
+                        {
+                            //PRÓXIMA CÉLULA DO GRID NA ORDEM
+                            celula = destinationImage(Rect((int)i*((float)destinationImage.rows/13), (int)(j*((float)destinationImage.cols/linhas_barcode_int)), (int)((float)destinationImage.rows/13), (int)((float)destinationImage.cols/linhas_barcode_int)));
+
+                            //DESENHAR CÉLULAS LIDAS
+                            rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 3);
+                            imshow("Transformada",destinationImage2);
+
+
+                            //FILTRAR O BRANCO DA CÉLULA
+                            inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
+
+                            //POSIÇÕES PARA IDENTIFICAR SE HÁ ALGO DIFERENTE DE BRANCO NO CENTRO DA CÉLULA
+                            for (int y = 11; y < mask1.rows-11; ++y)
+                            {
+                                for (int x = 11; x < mask1.cols-11; ++x)
+                                {
+                                    //VERIFICA SE O PIXEL ATUAL É PRETO
+                                    Scalar colour = mask1.at<uchar>(Point(x, y));
+                                    if(colour.val[0]==0){
+                                        //SE O PIXEL FOR PRETO, LIGAR NOTA
+                                        azul = true;
+
+                                        //IDENTIFICAR SE A NOTA TOCANDO NO MOMENTO SERÁ DESLIGADA
+                                        bool tem_nota = false;
+                                        for (int a = 0; a < (int)notas_anteriores.size(); ++a)
+                                        {
+                                            if(notas_anteriores[a] == oitava*20+12-j){
+                                                tem_nota = true;
+                                            }
                                         }
-                                    }
 
-                                    //SE SIM, ELA PODE SER TOCADA NOVAMENTE
-                                    if(tem_nota == true){
-                                        // cout << "tem nota true" << endl;
-                                        // cout << "tocou nota (seria apagada)" << oitava*16+13-j << endl;
-                                        message[0] = MIDI_NOTEON;
-                                        message[1] = oitava*16+13-j;
-                                        midiout->sendMessage( &message );
-                                        noteon = true; 
-                                        tocada[oitava*16+13-j] = true;
-                                        // tem_nota = false;
-                                    }else{
-                                        //SENÃO, CASO ELA AINDA NÃO TENHA SIDO TOCADA, TOCÁ-LA
-                                        // cout << "tem nota false" << endl;
-                                        if(tocada[oitava*16+13-j] == false){
-                                            // cout << "tocou nota" << endl; 
-                                            // cout << "tocou nota (mantem ligada)" << oitava*16+13-j << endl;   
+                                        //SE SIM, ELA PODE SER TOCADA NOVAMENTE
+                                        if(tem_nota == true){
+                                            // cout << "tem nota true" << endl;
+                                            // cout << "tocou nota (seria apagada)" << oitava*16+13-j << endl;
                                             message[0] = MIDI_NOTEON;
-                                            message[1] = oitava*16+13-j;
+                                            message[1] = oitava*20+12-j;
                                             midiout->sendMessage( &message );
                                             noteon = true; 
-                                            tocada[oitava*16+13-j] = true;
+                                            tocada[oitava*20+12-j] = true;
+                                            // tem_nota = false;
+                                        }else{
+                                            //SENÃO, CASO ELA AINDA NÃO TENHA SIDO TOCADA, TOCÁ-LA
+                                            // cout << "tem nota false" << endl;
+                                            if(tocada[oitava*20+12-j] == false){
+                                                // cout << "tocou nota" << endl; 
+                                                // cout << "tocou nota (mantem ligada)" << oitava*16+13-j << endl;   
+                                                message[0] = MIDI_NOTEON;
+                                                message[1] = oitava*20+12-j;
+                                                midiout->sendMessage( &message );
+                                                noteon = true; 
+                                                tocada[oitava*20+12-j] = true;
+                                            }
+                                            //SE A NOTA FOR LIGADA E NÃO ESTIVER NO ARRAY PARA DELISGAR, CONTINUA LIGADA
                                         }
-                                        //SE A NOTA FOR LIGADA E NÃO ESTIVER NO ARRAY PARA DELISGAR, CONTINUA LIGADA
-                                    }
 
-                                    //SE OS PRÓXIMOS PIXELS DA DIREITA TAMBÉM FOREM PRETOS, NOTA NÃO SERÁ DESLIGADA A FORÇA
-                                    for (int x1 = x; x1 < mask1.cols; ++x1)
-                                    {
-                                        Scalar colour2 = mask1.at<uchar>(Point(x1, 17));
-                                        //AO IDENTIFICAR PRÓXIMO PIXEL BRANCO, DESLIGAR NOTA NA ETAPA DE DESLIGAR AS NOTAS
-                                        if(colour2.val[0]!=0){
-                                            notas_anteriores.push_back(oitava*16+13-j);
-                                            // tocada[oitava*16+13-j] = false;
+                                        //SE OS PRÓXIMOS PIXELS DA DIREITA TAMBÉM FOREM PRETOS, NOTA NÃO SERÁ DESLIGADA A FORÇA
+                                        for (int x1 = x; x1 < mask1.cols; ++x1)
+                                        {
+                                            Scalar colour2 = mask1.at<uchar>(Point(x1, 17));
+                                            //AO IDENTIFICAR PRÓXIMO PIXEL BRANCO, DESLIGAR NOTA NA ETAPA DE DESLIGAR AS NOTAS
+                                            if(colour2.val[0]!=0){
+                                                notas_anteriores.push_back(oitava*20+12-j);
+                                                // tocada[oitava*16+13-j] = false;
+                                            }
                                         }
                                     }
-                                }
+                                    // imshow("mask1", mask1);
+                                    // waitKey();
+                                    // mask1.at<uchar>(Point(x, y)) = 0;
 
-                                //suavização da quebra de loop
-                                if(azul == true){
-                                    x = mask1.cols;
-                                    y = mask1.rows;
-                                    azul = false;
+                                    //suavização da quebra de loop
+                                    if(azul == true){
+                                        x = mask1.cols;
+                                        y = mask1.rows;
+                                        azul = false;
+                                    }
                                 }
                             }
                         }
+                        // decodedObjects.clear();
+                        switch(waitKey(1)){
+                            case 27:
+                                goto final;
+                            case 32:
+                                if(!stop){
+                                    stop = true;
+                                    cout << "STOP" << endl;
+                                    shutNotes();
+                                    decodedObjects.clear();
+                                    decodificado = false;
+                                    goto inicio;
+                                }
+                            case 'q':
+                                goto final;
+                        }
+                        // usleep(tempo_linha);
+                        clock_t t = clock();
+                        clock_t t2 = clock();
+                        float dif = 0;
+                        while(dif < tempo_linha){
+                            t2 = clock();
+                            dif = t2 - t;
+                            // cout << dif << endl;
+                        }
                     }
-                    // decodedObjects.clear();
-                    switch(waitKey(1)){
-                        case 27:
-                            goto final;
-                        case 32:
-                            if(!stop){
-                                stop = true;
-                                cout << "STOP" << endl;
-                                shutNotes();
-                                decodedObjects.clear();
-                                decodificado = false;
-                                goto inicio;
-                            }
-                        case 'q':
-                            goto final;
-                    }
-                    usleep(tempo_linha-1000);
                 }
 
             }
@@ -502,7 +530,8 @@ int main(int argc, char** argv)
             bpm = bpm+1;
             tempo = 60.0/(float)bpm;
             tempo_linha = (tempo*1000000);
-            cout << "Notas por minuto: " << bpm << endl;
+            tempo_linha = tempo_linha/(float)barcode_int3;
+            cout << "Batidas por minuto: " << bpm << endl;
         }else if(keyEx == 65364){
             //TACLA PARA BAIXO
             if(bpm > 0){
@@ -512,7 +541,8 @@ int main(int argc, char** argv)
             }
             tempo = 60.0/(float)bpm;
             tempo_linha = (tempo*1000000);
-            cout << "Notas por minuto: " << bpm << endl;
+            tempo_linha = tempo_linha/(float)barcode_int3;
+            cout << "Batidas por minuto: " << bpm << endl;
         }else if(keyEx == 65361){
             //TECLA PARA ESQUERDA
             if(oitava > 0){
