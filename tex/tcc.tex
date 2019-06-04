@@ -27,9 +27,13 @@
 \usepackage{nomencl}
 % \usepackage[alf,abnt-etal-cite=2,abnt-etal-list=0,abnt-etal-text=it,versalete,bibjustif]{abntex2cite}
 \usepackage[alf]{abntex2cite}
-
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
 \usepackage{epstopdf}
 \usepackage{datetime}
+\usepackage{pgfplots}
 %\usepackage[acronym]{glossaries}
 %\usepackage{glossaries}
 \usepackage{acro}
@@ -124,6 +128,18 @@
   class = abbrev
 }
 
+\begin{filecontents}{data.dat}
+ n   xn 
+ 1   1.0
+ 6   3.0
+ 11  5.0
+ 16  3.0
+ 21  1.0
+ 26  3.0
+ 31  5.0
+ 36  1.0
+\end{filecontents}
+
 \providecommand{\keywords}[1]{\textbf{\textit{Keywords: }} #1}
 \providecommand{\palavrasChaves}[1]{\textbf{\textit{Palavras-chaves: }} #1}
 
@@ -197,7 +213,7 @@
 
 \begin{abstract}
   Apresenta o desenvolvimento de um {\it drum pad} usando visão
-  artificial capaz de controlar sintetizadores musicais criando uma
+  artificial capaz de controlar sintetizadores musicais virtuais criando uma
   sequência de notas musicais em repetição. Instrumentos assim são
   muito usados por músicos amadores que precisam criar acompanhamentos
   de bateria ou baixo para suas composições e não dispõem de músicos
@@ -217,9 +233,8 @@
 \selectlanguage{english}
 
 \begin{abstract}
-  abstract in english
-  \\
-  \keywords{translate-as}
+  {\it Introduces the development of a drum pad utilizing artificial vision capabçe of controling virtual synthesizers creating a sequence of musical notes on loop. Instruments like these are commonly used by amateur musicians artist who need to generate drums or bass support to their compositions and couldn't find other musicians to support it. The developed tool allows that with only a webcam, one paper sheet and open source software, an amateur musician artist can be able to replicate simmilar effects of a physical drum pad while drawing or overlapping small tokens over the paper sheet.}
+  \keywords{Drum pad, sequencer, midi controller, openCv, artificial vision}
 
 \end{abstract}
 
@@ -265,11 +280,10 @@ Apesar de ser um periférico de fácil utilização e de rápida adaptabilidade,
 
 A proposta do projeto apresentado neste trabalho de conclusão de curso é de facilitar a programação de uma sequência de sons que um usuário venha querer utilizar para qualquer propósito que seja, principalmente os descritos anteriormente. Com apenas uma webcam de cerca de 60 dólares, uma folha de papel e um programa de computador que utiliza conceitos de visão artificial, o usuário é capaz de programar, de forma interativa, uma sequência de sons provenientes de um sintetizador midi, que será reproduzida em um tempo determinado sem depender, por exemplo, de suas próprias habilidades rítmicas, a partir de marcações feitas na folha.
 
-No capítulo XX serão apresentados..., no capítulo XX será mostrado
-... . O capítulo XX discorre sobre.... blá, blá, blá...
+No capítulo um será apresentado o modelo utilizado como referência para se utilizar o software apresentado neste trabalho, no capítulo seguinte o algoritmo que o software utiliza para reproduzir sons de acordo com o modelo. O capítulo seguinte explica conceitos básicos do Protocolo MIDI utilizados no desenvolvimento do software. O capítulo quatro apresenta os marcadores utilizados no modelo dde folha de papel, elementos cruciais para o funcionamento do software,, enquanto o capítulo seguinte explica como, a partir desses marcadores, o software aplica uma transformada de perspectiva da matriz da imagem caputrada pela câmera. No capítulo sete é explicado como se utilizar o software. No próximo capítulo estão conceitos da biblioteca RtMidi, utilizada para haver comunicação midi a partir do protocolo apresentado no capítulo três, enquanto os próximos dois capítulos discorrem, respectivamente, sobre resultados do software e conclusões tiradas ao final do desenvolvimento do projeto.
 
 \chapter{Modelo para Interpretação}
-\label{cha:fund-teor}
+\label{cha:cha1}
 
 Como muitas aplicações que envolvam conceitos de visão artificial, é necessário um ambiente controlado de onde se possa extrair as informações necessárias para o funcionamento do programa de computador. Para isso, foi necessária a criação de um {\it layout} com elementos específicos que façam com que o ambiente seja bem interpretado pelo programa.
 
@@ -278,12 +292,17 @@ IMAGEM DO LAYOUT
 As principais características do {\it layout} para que haja a interação com o programa de computador são os  marcadores nos cantos da folha e o código de barras. Tendo em vista que, nesse modelo, sempre haverão 13 notas distintas que podem ser reproduzidas, o código de barras é utilizado para guardar a informação de quantas notas o programa pode reproduzir e sua fórmula de compasso, sem haver a necessidade do usuário especificá-las já que não faria sentido o modelo ter, por exemplo, uma área quadriculada de 13x8 e o usuário configurar que o essa área tem uma distribuição diferente da real ou uma fórmula de compasso que não corresponda ao modelo. Além do código de barras, são utilizados marcadores nos cantos da folha que, ao serem interpretados, mostram a imagem final que o programa utilizará como fonte de interpretação.
 
 \chapter{Algoritmo}
-\label{cha:fund-teor}
+\label{cha:cha2}
 
 Partindo da imagem capturada da câmera do usuário, o programa procura os marcadores dos cantos da folha, o código de barras e os interpreta guardando as informações necessárias. Essas verificações acontecem a cada frame capturado pela câmera para manter a integridade com a imagem de tempo real.
 Com pontos capturados a partir dos marcadores, é selecionada a área de interesse da folha que o programa deverá interpretar ao sinal do usuário.
 
-IMAGEM DA ÁREA DO MEIO DA FOLHA
+\begin{figure}[h!]
+  \centering
+    \includegraphics[angle=90,origin=c,width=0.5\textwidth]{imagens/aoi.png}
+    \caption{Área central de uma folha}
+  \label{fig:aoi_aoi}
+\end{figure}
 
 Com a informação de quantas colunas existem na área quadriculada, adquirida do código de barras presente na folha, a próxima etapa executada pelo algoritmo é de verficiar, em cada um dos retângulos da área de interesse, se há dois tipos de marcações diferentes: uma representa um som que só tocará naquele momento e a outra representa a continuidade do som, permitindo que ela seja reproduzido durante o tempo desejado pelo usuário. Foram escolhidas duas marcações diferentes para o software identificar quando deve ocorrer cada uma das duas situações. O que identifica se a nota será ou não mantida, é haver ou não pixels marcados do meio da marcação original padrão até o final do quadrado identificado pelo programa.
 
@@ -291,20 +310,38 @@ IMAGEM DA MARCAÇÃO SOZINHA E IMAGEM DA MARCAÇÃO CONTINUADA (LADO A LADO)
 
 A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí. Isso tudo com um intervalo de tempo definido entre cada nota, devido à cálculos a partir da fórmula do compasso daquele modelo, extraída do código de barras da folha, e definida ao gerar o pdf a partir de um segundo programa criado para esse propósito.
 
-Os cálculos feitos para se obter o tempo de cada som é um simples cálculos utilizando a fórmula do compasso e o valor de batidas por minuto passado como parâmetro, pelo usuário, ao executar o software:
+Devido à falta de dinamicidade uma vez que é impossível alterar quantos retângulos existem na folha de papel após impressa, não foi possível utilizar a fórmula de compasso convencional na teoria musical, então foi definida uma convenção de que, para o software, existem dois valores: um que determina quantas batidas aquela folha comportará e outro que determina quantas notas serão tocadas em cada batida.
 
-CALCULO: tempo = 60/bpm, para se obter o número de batidas por segundo uma vez que as funções disponíveis no C++ para cálculo de tempo utilizam segundos. Após isso, o tempo de cada som precisa ser divido pelo denominador da fórmula do compasso, para que, em cada batida, sejam tocadas o número de notas definidos pela fórmula e pela convenção feita no desenvolvimento do software, que é a seguinte: para cada fórmula de compasso apresentada pelo usuário, cada retângulo do modelo da folha representará a metade da metade do tempo de uma nota, menos quando o denominador for o número um. Por exemplo: se o usuário passar uma fórmula de compasso 3/4, que representa que em um compasso haverá três semínimas, o modelo da folha, ao invés de 3 retângulos, uma para cada semínima possível, ou 48 colunas, uma para cada semifusa possível, terá 12 colunas, uma para cada semicolcheia. A partir da convenção e da fórmula do compasso, utilizando uma fórmula 3/4, teremos que, no tempo de cada batida serão reproduzidas 4 notas, ou seja, cada coluna tem um intervalo de tempo de 60/(bpm*denominador_formula)
+O cálculo feitos para se obter o tempo de coluna da folha é um simples cálculo utilizando a fórmula do compasso convencionada e o valor de batidas por minuto passado como parâmetro, pelo usuário, ao executar o software:
+
+\begin{equation}
+tempo = \dfrac{60}{bpm \times y}
+\end{equation}
+
+Onde y representa o número de sons que serão reproduzidos a cada batida, ou seja, o denominador da fórmula do compasso convencionada.
 
 A ordem de disposição das notas foi escolhida da maneira como mostrada na imagem (REFERENCIA A IMAGEM) pois é o mais próximo de como uma "pista" MIDI é representada em softwares profissionais de gravação de músicas, denominados DAW ({\it Digital Audio Workstation}),quando o usuário utiliza recursos MIDI, como se pode ver na imagem abaixo:
 
 IMAGEM DO REAPER DE UMA MIDI TRACK
 
-Também podemos interpretar o layout como um gráfico num simples plano cartesiano. O gráfico representa frequência \times\ tempo e é digital e discreto, fazendo com que a posição da marcação represente uma frequência num intervalo de tempo. Essa interpretação pode ser representada da seguinte maneira:
+Também podemos interpretar o layout como um gráfico num simples plano cartesiano. O gráfico representa frequênciaXtempo, fazendo com que a posição da marcação represente uma frequência num intervalo de tempo. Essa interpretação pode ser representada da seguinte maneira:
 
 IMAGEM DO LAYOUT COM MARCAÇÕES E GRÁFICO LADO A LADO
 
+% \begin{tikzpicture}
+%   \begin{axis}
+%     [
+%       xlabel={$x$},
+%       ylabel={$y$},
+%       xmin=0, xmax=9,
+%       ymin=0, ymax=13,
+%     ]
+%   \addplot+[ycomb, domain=1:10, blue] table [x={n}, y={xn}] {data.dat};
+%   \end{axis}
+% \end{tikzpicture}\end{document}
+
 \chapter{Protocolo MIDI}
-\label{cha:fund-teor}
+\label{cha:cha3}
 
 O Protocolo MIDI é o principal responsável pela reprodução dos sons de sintetizadores e sequenciadores MIDI e, sendo um protocolo, é universal, ou seja, independe do fabricante do sintetizador ou sequenciador uma vez seguido de maneira correta. Apesar de bastante extenso e complexo, serão explicadas aqui apenas conceitos que foram utilizados no desenvolvimento do projeto.
 
@@ -362,7 +399,7 @@ FOTO DOS CONTROLADORES
 Com essa mensagem, é possível variar, em cada canal, desde variáveis de volume, até variáveis de modulação e efeitos que caracterização como o som será reproduzido pelo sintetizador.
 
 \chapter{Marcadores ArUco}
-\label{cha:fund-teor}
+\label{cha:cha4}
 
 A funcionalidade do software projetado nesta tese depende intrinsecamente da AOI ({\it area of interest}) do {\it layout} e, para se adquirir essa área de interesse da imagem inicial, uma das soluções mais comuns é a utilização de marcadores fiduciais quadrados binários. O principal benefício em se utilizar marcadores do tipo é de se obter, a partir dos quatro cantos de um único marcador, a {\it camera pose}, ou seja, tanto a orientação quanto a posição da câmera no ambiente.
 
@@ -384,7 +421,7 @@ IMAGEM DO MODELO COM OS CÍRCULOS
 
 
 \chapter{Transformação de Perspectiva}
-\label{cha:fund-teor}
+\label{cha:cha5}
 
 Para o software interpretar a imagem de forma correta, é necessário que ela seja paralela à câmera, tornando desconfortável a sua utilização. Uma maneira de solucionar esse problema foi utilizar uma transformada de perspectiva, desprezando os problemas gerados para imagens capturadas de posições que não sejam paralelas à câmera que está capturando o ambiente.
 
@@ -396,15 +433,20 @@ Assuntos a serem abordados:
 - Descrever a MATEMÁTICA envolvida nessa transformação 
 
 \chapter{Como Utilizar o Software}
-\label{cha:fund-teor}
+\label{cha:cha6}
 
 Ao se iniciar o software, é necessário passar três parâmetros iniciais na sua execução. O primeiro é o identificador da entrada de vídeo do usuário para a cena ser capturada com a câmetra correta caso haja mais de uma conectada.
 
-O segundo é a velocidade de batidas por minuto (bpm) para o tempo de referência para reprodução das notas reproduzidas pelo software. Ao gerar o modelo da folha, o usuário deve passar os valores que formarão a fórmula do compasso para aquela folha em específico, porém, devido à limitação de espaço de uma folha A4, não é possível utilizar qualquer fórmula de compasso que se deseja. Um exemplo que faria com que o software apresentasse inconsistência pode ser encontrado abaixo:
+O segundo é a velocidade de batidas por minuto (bpm) para o tempo de referência para reprodução das notas reproduzidas pelo software. Ao gerar o modelo da folha, o usuário deve passar os valores que ditaram a regra de velocidade de cada intervalo de tempo baseado no bpm informado pelo usuário. Devido à limitações de espaço, o máximo de retângulos que podem ser gerados para o bom funcionamento do software é de 46 retângulos. Um exemplo que faria com que o software apresentasse inconsistência pode ser encontrado abaixo:
 
-LAYOUT COM 4/16
+\begin{figure}[h!]
+  \centering
+    \includegraphics[angle=90,origin=c,width=0.4\textwidth]{imagens/416.png}
+    \caption{Folha com 4 batidas por folha e 16 notas por batida}
+  \label{fig:416}
+\end{figure}
 
-Podemos ver que, dependendo do que o usuário definisse, a espaço livre para as marcações do usuário seria mínio, prejudicando o funcionamento do software.
+Podemos ver que, dependendo do que o usuário definisse, a espaço livre para as marcações seria muito pequeno, prejudicando o funcionamento do software.
 
 O terceiro é a oitava que será reproduzida no software. A oitava, na teoria musical, representa uma nota com o dobro ou metade de sua frequência. É quando a nota será, apesar de ter uma frequência maior ou menor que a nota de referência, a mesma e se chama oitava devido ao fato de, na representação mais comum das notas (dó, ré, mi, fá, sol, lá, sí), ela seria a oitava nota, que seria a mesma da primeira porém com uma frequência dobrada, ou seja: dó (oitava x), ré, mí, fá, sol, lá, sí e dó (oitava x+1), onde o último só e a oitava nota em relação ao primeiro.
 
@@ -413,7 +455,12 @@ Com esses paramêtros definidos, o software inicia-se e lista todas as entradas 
 Após essas configurações iniciais, é preciso se cumprir, assim como outros softwares que utilizam conceitos de visão artificial, certas condições para o funcionamento correto do software projetado neste trabalho.
 Primeiramente precisa-se de condições de ambiente favoráveis à captura das imagens da câmera como iluminação da cena, principalmente de forma que a folha não fique muito escura ou com sombreados escuros, pois o filtro de branco utilizado na área de interesse pode identificar essas sombras como marcações, o prejudica no funcionamento do software. Outra condição é uma angulação da câmera de forma que se consiga visualizar os quatro marcadores ArUco e o código de barras presentes na folha. Marcações serão mostradas no vídeo quando os cinco elementos forem identificados de forma correta. Abaixo temos a imagem capturada pela câmera com as devidas marcações indicando que as instruções iniciais foram seguidas como o desejado:
 
-FOTO COM AS MARCAÇÕES DE QUE ESTÁ TUDO OK
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.4\textwidth]{imagens/video_com_marcacoes.png}
+    \caption{Imagem capturada pela câmera com marcações de reconhecimento}
+    \label{fig:tudo_ok}
+\end{figure}
 
 A partir desse ponto, pode-se utilizar a barra de espaço para o software tocar ou parar a sequência identificada na folha. Essa sequência pode ser livremente alterada pelo usuário diretamente na folha de papel e reproduzida novamente quando se desejar, bastando apenas que as condições já explicadas sejam sempre cumpridas antes de se informar ao software que ele deverá reproduzir a sequência da folha.
 
