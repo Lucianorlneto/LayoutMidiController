@@ -181,10 +181,10 @@ void gera_html(int linhas, string result){
 	"\n" <<
 	"<body>\n" <<
 	"\n" <<
-	"<div style='left: 26px; top: 62px; position: absolute'><img src='markers/4x4_1000-3.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
-	"<div style='right: 126px; top: 62px; position: absolute'><img src='markers/4x4_1000-1.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
-	"<div style='left: 26px; bottom: 54px; position: absolute'><img src='markers/4x4_1000-4.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
-	"<div style='right: 126px; bottom: 54px; position: absolute'><img src='markers/4x4_1000-2.png' heigh='100px' width='100px' class='rotate'></div> \n" <<
+	"<div style='left: 24px; top: 62px; position: absolute'><img src='markers/4x4_1000-3.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
+	"<div style='right: 124px; top: 62px; position: absolute'><img src='markers/4x4_1000-1.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
+	"<div style='left: 24px; bottom: 53px; position: absolute'><img src='markers/4x4_1000-4.png' heigh='100px' width='100px' class='rotate'></div>\n" <<
+	"<div style='right: 124px; bottom: 53px; position: absolute'><img src='markers/4x4_1000-2.png' heigh='100px' width='100px' class='rotate'></div> \n" <<
 	"\n" <<
 	"<div class='rotate' style='position: absolute; top: 600px; right: 0px;' id='barcode'></div>\n" <<
 	"\n" <<

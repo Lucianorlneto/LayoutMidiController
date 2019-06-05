@@ -8,7 +8,7 @@
 \contentsline {chapter}{\numberline {4}Protocolo MIDI}{7}{chapter.4}
 \contentsline {chapter}{\numberline {5}Marcadores ArUco}{10}{chapter.5}
 \contentsline {chapter}{\numberline {6}Transforma\IeC {\c c}\IeC {\~a}o de Perspectiva}{12}{chapter.6}
-\contentsline {chapter}{\numberline {7}Como Utilizar o Software}{13}{chapter.7}
-\contentsline {chapter}{\numberline {8}Biblioteca RtMidi}{16}{chapter.8}
-\contentsline {chapter}{\numberline {9}Resultados}{18}{chapter.9}
-\contentsline {chapter}{\numberline {10}Conclus\IeC {\~o}es}{19}{chapter.10}
+\contentsline {chapter}{\numberline {7}Como Utilizar o Software}{14}{chapter.7}
+\contentsline {chapter}{\numberline {8}Biblioteca RtMidi}{17}{chapter.8}
+\contentsline {chapter}{\numberline {9}Resultados}{19}{chapter.9}
+\contentsline {chapter}{\numberline {10}Conclus\IeC {\~o}es}{20}{chapter.10}

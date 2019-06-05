@@ -129,15 +129,27 @@
 }
 
 \begin{filecontents}{data.dat}
- n   xn 
- 1   1.0
- 6   3.0
- 11  5.0
- 16  3.0
- 21  1.0
- 26  3.0
- 31  5.0
- 36  1.0
+ n   xn
+ 1    1
+ 3    1
+ 4    3
+ 6    3 
+ 7    5
+ 9    8
+ 11   8
+ 12   3
+ 14   3
+ 15   5
+ 17   10
+ 19   10
+ 20   3
+ 22   3
+ 23   5
+ 25   6
+ 27   6
+ 28   5
+ 30   5
+ 31   3
 \end{filecontents}
 
 \providecommand{\keywords}[1]{\textbf{\textit{Keywords: }} #1}
@@ -297,7 +309,7 @@ As principais características do {\it layout} para que haja a interação com o
 Partindo da imagem capturada da câmera do usuário, o programa procura os marcadores dos cantos da folha, o código de barras e os interpreta guardando as informações necessárias. Essas verificações acontecem a cada frame capturado pela câmera para manter a integridade com a imagem de tempo real.
 Com pontos capturados a partir dos marcadores, é selecionada a área de interesse da folha que o programa deverá interpretar ao sinal do usuário.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
     \includegraphics[angle=90,origin=c,width=0.5\textwidth]{imagens/aoi.png}
     \caption{Área central de uma folha}
@@ -306,7 +318,22 @@ Com pontos capturados a partir dos marcadores, é selecionada a área de interes
 
 Com a informação de quantas colunas existem na área quadriculada, adquirida do código de barras presente na folha, a próxima etapa executada pelo algoritmo é de verficiar, em cada um dos retângulos da área de interesse, se há dois tipos de marcações diferentes: uma representa um som que só tocará naquele momento e a outra representa a continuidade do som, permitindo que ela seja reproduzido durante o tempo desejado pelo usuário. Foram escolhidas duas marcações diferentes para o software identificar quando deve ocorrer cada uma das duas situações. O que identifica se a nota será ou não mantida, é haver ou não pixels marcados do meio da marcação original padrão até o final do quadrado identificado pelo programa.
 
-IMAGEM DA MARCAÇÃO SOZINHA E IMAGEM DA MARCAÇÃO CONTINUADA (LADO A LADO)
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{imagens/nota.jpg}
+    \caption{Marcação de nota}
+    \label{fig:marcacao}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{imagens/nota_continuada.jpeg}
+    \caption{Marcação de nota continuada}
+    \label{fig:marcacao_continuada}
+  \end{subfigure}%
+\end{figure}
 
 A partir das informações que o programa consegue da etapa anterior, ele envia mensagens MIDI, utilizando o protocolo MIDI, para se comunicar com uma fonte de áudio selecionada pelo usuário, a qual será responsável pela reprodução dos sons em sí. Isso tudo com um intervalo de tempo definido entre cada nota, devido à cálculos a partir da fórmula do compasso daquele modelo, extraída do código de barras da folha, e definida ao gerar o pdf a partir de um segundo programa criado para esse propósito.
 
@@ -322,11 +349,42 @@ Onde y representa o número de sons que serão reproduzidos a cada batida, ou se
 
 A ordem de disposição das notas foi escolhida da maneira como mostrada na imagem (REFERENCIA A IMAGEM) pois é o mais próximo de como uma "pista" MIDI é representada em softwares profissionais de gravação de músicas, denominados DAW ({\it Digital Audio Workstation}),quando o usuário utiliza recursos MIDI, como se pode ver na imagem abaixo:
 
-IMAGEM DO REAPER DE UMA MIDI TRACK
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.5\textwidth]{imagens/midi_item_reaper.png}
+    \caption{{\it Midi Item} na DAW Reaper}
+  \label{fig:reaper}
+\end{figure}
 
 Também podemos interpretar o layout como um gráfico num simples plano cartesiano. O gráfico representa frequênciaXtempo, fazendo com que a posição da marcação represente uma frequência num intervalo de tempo. Essa interpretação pode ser representada da seguinte maneira:
 
-IMAGEM DO LAYOUT COM MARCAÇÕES E GRÁFICO LADO A LADO
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[angle=90,origin=c,width=1\textwidth]{imagens/layout_preenchido.jpeg}
+    \caption{Folha com marcações}
+    \label{fig:layout_marcacao}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}
+        [
+          xlabel={$t$},
+          ylabel={$f$},
+          xmin=0, xmax=33,
+          ymin=0, ymax=13,
+        ]
+        \addplot+[ycomb, domain=1:10, blue] table [x={n}, y={xn}] {data.dat};
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Gráfico discreto}
+    \label{fig:gráfico}
+  \end{subfigure}%
+\end{figure}
+
 
 % \begin{tikzpicture}
 %   \begin{axis}
@@ -338,7 +396,7 @@ IMAGEM DO LAYOUT COM MARCAÇÕES E GRÁFICO LADO A LADO
 %     ]
 %   \addplot+[ycomb, domain=1:10, blue] table [x={n}, y={xn}] {data.dat};
 %   \end{axis}
-% \end{tikzpicture}\end{document}
+% \end{tikzpicture}
 
 \chapter{Protocolo MIDI}
 \label{cha:cha3}
@@ -349,7 +407,7 @@ Esse protocolo consiste na troca de "mensagens MIDI" entre o software ou hardwar
 
 Essas mensagens baseam-se em um conjunto de um ou mais {\it bytes}, onde o primeiro {\it byte} se classifica como {\it STATUS byte}, o qual define o tipo da mensagem, e é geralmente seguido por outros {\it bytes} chamados {\it DATA bytes}, os quais dão as características desejadas para a mensagem.
 
-Existem diversos tipos de mensagens, mostradas na tabela (REFERENCIA TABELA) e de forma expandida na tabela (REFERENCIA TABELA), extraídas diretamente da {\it The MIDI Association} (www.midi.org), principal portal com informações do protocolo MIDI, porém, para o desenvolvimento do projeto descrito nesta tese de conclusão de curso, foram utilizadas bascicamente as mensagens chamadas {\it Note ON} e {\it Note OFF}, que especificam quando uma nota deve ser ativada e desativada. Outra mensagem utilizada é a mensagem de {\it Control Change}, enviada para o sintetizador apenas na inicialização do programa, a qual pode designar diversas ações diferentes para o sintetizador, porém, no software apresentado neste trabalho, ela é utilizada apenas para controle de volume.
+Existem diversos tipos de mensagens, mostradas na tabela (REFERENCIA TABELA) e de forma expandida na tabela (REFERENCIA TABELA), extraídas diretamente da {\it The MIDI Association} (www.midi.org), principal portal com informações do protocolo MIDI, porém, para o desenvolvimento do projeto descrito nesta tese de conclusão de curso, foram utilizadas bascicamente as mensagens chamadas {\it Note ON} e {\it Note OFF}, que especificam quando uma nota deve ser ativada e desativada. Outras mensagens utilizadas, que são mensagens de configuração do canal MIDI, são as mensagens {\it Control Change}, enviada para o sintetizador, no caso deste software, apenas na inicialização do programa, a qual pode designar diversas ações diferentes para o sintetizador, porém, no software apresentado neste trabalho, ela é utilizada apenas para controle de volume e a mensagem {\it Program Change}, a qual seleciona o identificador do instrumento que o sintetizador irá simular, enviada, neste software, assim como a Control Change, apenas na sua inicialização.
 
 As mensagens de ativação e desativação do som são compostas por um conjunto de 3 {\it bytes} os quais são representados da seguinte forma:
 \begin{itemize}
@@ -361,12 +419,12 @@ As mensagens de ativação e desativação do som são compostas por um conjunto
   \end{itemize}
 \end{itemize}
 
-Onde nnnn representa o canal que esta mensagem controlará, variando entre 16 canais distintos, kkkkkkk representa o {\it pitch} que será reproduzido e vvvvvvv representa a velocidade que a nota será reproduzida que, em notação musical, temos essas velocidades da seguinte maneira:
+Onde nnnn representa o canal que esta mensagem controlará, variando entre 16 canais distintos, kkkkkkk representa o {\it pitch} que será reproduzido e vvvvvvv representa a dinâmica com a qual a nota será reproduzida que, em notação musical, são representadas da seguinte maneira:
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
     \includegraphics[width=0.1\textwidth]{imagens/nuance-velocity-table.jpg}
-    \caption{Velocidades em notação musical e seus respectivos valores para a mensagem {\it Note On}}
+    \caption{Dinâmica em notação musical e seus respectivos valores para a mensagem {\it Note On}}
   \label{fig:Velocidades em notação musical}
 \end{figure}
 
@@ -394,9 +452,27 @@ A mensagem de alteração de valores dos controladores é representada da seguin
 
 Onde nnnn representa o canal para o qual a mensagem será enviada, da mesma forma das mensagens de ativação e desativação do som, ccccccc representa o controlador que terá o seu valor alterado e vvvvvvv representa o valor que será atribuído para o controlador. Os controladores controlados a partir dessas mensagens podem variar entre 128 controladores destintos sendo eles os seguintes:
 
-FOTO DOS CONTROLADORES
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.1\textwidth]{imagens/controladores.png}
+    \caption{Controladores controlados a partir da mensagem {\it Control Change}}
+  \label{fig:controladores}
+\end{figure}
 
 Com essa mensagem, é possível variar, em cada canal, desde variáveis de volume, até variáveis de modulação e efeitos que caracterização como o som será reproduzido pelo sintetizador.
+
+A última mensagem utilizada no software, a {\it Program Change}, é representada da seguinte maneira:
+\begin{itemize}
+  \item A mensagem {\it Control Change}:
+  \begin{itemize}
+    \item {\it Status byte}: 1100 nnnn
+    \item {\it Data byte}: 0ppp pppp
+  \end{itemize}
+\end{itemize}
+
+Onde nnnn representa o número do canal para o qual a mensagem será enviada e ppppppp representa o identificador do instrumento que será selecionado.
+
+
 
 \chapter{Marcadores ArUco}
 \label{cha:cha4}
@@ -407,17 +483,25 @@ No desenvolvimento deste projeto foi escolhido o módulo Aruco da biblioteca de 
 
 A partir do módulo Aruco, pode-se gerar marcadores ArUco que consistem em marcadores quadrados compostos por uma larga borda da cor preta e uma matriz binária intríseca ao marcador, que determina seu identificador. As bordas existem para facilitar a detecção do marcador em uma imagem e a codificação da matriz binária para permitir a detecção desse marcador com intuíto de serem aplicadas outras técnicas de visão artifial. Abaixo temos alguns exemplos de marcadores ArUco:
 
-IMAGEM MARCADORES ARUCO
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.2\textwidth]{imagens/markers.jpg}
+    \caption{Exemplos de marcadores ArUco}
+  \label{fig:arucoMarkers}
+\end{figure}
 
 Com uma detecção rápida e precisa desses marcadores, feita pela biblioteca OpenCv, foram escolhidos quatro identificadores que simbolizam os cantos da folha modelo e o software, ao decodificar os quatro marcadores, dependendo do seu identificador, são selecionados 4 pontos, um de cada marcador, a fim de adquirir a área de interesse da folha para o software.
-
-IMAGEM DOS QUATRO PONTOS IDENTIFICADOS
 
 Com a área de interesse adquirida, é aplicada uma transformação de perspectiva nessa nova imagem a fim de  desprezar distorções causadas pelo posicionamento da câmera, uma vez que esta nova imagem que será analizada pelo software precisa ser paralela à folha, o que é possível a partir de diferentes ângulos, isso se os quatro marcadores forem visíveis, graças a transformação de perspectiva, fazendo o usuário manusear o software de forma mais confortável.
 
 Outra forma de identificação que foi testada no projeto foi por cores em círculos coloridos posicionados no canto da folha. Devido à diversas variáveis de ambiente, essas cores poderiam variar de usuário para usuário, local para local, câmera para câmera entre outros, o que tornava necessária a marcação das cores ser feita manualmente pelo usuário com o propósito de haver um cálculo da média da cores dos círculos para sua identificação e, devido a essa inconsistência ao utilizar cores, a ideia foi descartada. O modelo anterior pode ser visto abaixo:
 
-IMAGEM DO MODELO COM OS CÍRCULOS
+\begin{figure}[H]
+  \centering
+    \includegraphics[angle=90,origin=c,width=0.5\textwidth]{imagens/circulos.png}
+    \caption{Modelo com círculos}
+  \label{fig:circulos}
+\end{figure}
 
 
 \chapter{Transformação de Perspectiva}
@@ -427,10 +511,45 @@ Para o software interpretar a imagem de forma correta, é necessário que ela se
 
 Graças à biblioteca OpenCv, essa manipulação é de rápida e fácil aplicação, precisando-se apenas de quatro pontos de referência na imagem original e uma nova matriz imagem resultado.
 
+A partir dos quatro pontos da imagem original, aplica-se a função getPerspectiveTransform, que a partir da fórmula mostrada abaixo, gera uma matriz de transformação de perspectiva 3x3:
 
+\begin{equation}
+  \begin{bmatrix}
+    t{}_i x'{}_i \\
+    t{}_i y'{}_i \\
+    t{}_i
+  \end{bmatrix} = MapMatrix \times
+  \begin{bmatrix}
+    x{}_i \\
+    y{}_i \\
+    1
+  \end{bmatrix}
+\end{equation}
 
-Assuntos a serem abordados:
-- Descrever a MATEMÁTICA envolvida nessa transformação 
+\begin{equation}
+  dst(i) = (x'{}_i,y'{}_i), src(i) = (x{}_i,y{}_i)
+\end{equation}
+
+Onde dst representa a matriz de destino e src a matriz de origem.
+
+Após obtida a matriz de tranformação 3x3, aplica-se a função warpPerspective, disponibilizada pelo OpenCv, que aplica a transformada de perspectiva na imagem original utilizando uma combinação de métodos de interpolação do OpenCv ({\it $INTER_LINEAR$} ou {\it $INTER_NEAREST$}) passada como parâmetro. Para se obter a imagem transformada, o seguinte cálculo é aplicado:
+
+\begin{equation}
+dst(x, y) = src \left(\dfrac{M_{11} x + M_{12} y + M_{13}}{M_{31} x + M_{32} y + M_{33}}, \dfrac{M_{21} x + M_{22} y + M_{23}}{M_{31} x + M_{32} y + M_{33}}\right)
+\end{equation}
+
+Onde M é a matriz de transformação 3x3 obtida a partir da função getPerspectiveTransform, dst é a matriz ou imagem de destino e src é a matriz ou imagem de origem.
+
+Com essa transformação é possível desconsiderar as linhas que formam os retângulos na folha de papel, economizando processamento ao utilizar linhas virtuais calculadas de forma linear de acordo com as informações extraídas do código de barras da folha.
+
+O resultado das opreções pode ser observado na imagem abaixo:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.5\textwidth]{imagens/Perspective_Transform.JPG}
+    \caption{Resultado de uma transformação de perspectiva em uma imagem}
+  \label{fig:perspectiva}
+\end{figure}
 
 \chapter{Como Utilizar o Software}
 \label{cha:cha6}
@@ -439,7 +558,7 @@ Ao se iniciar o software, é necessário passar três parâmetros iniciais na su
 
 O segundo é a velocidade de batidas por minuto (bpm) para o tempo de referência para reprodução das notas reproduzidas pelo software. Ao gerar o modelo da folha, o usuário deve passar os valores que ditaram a regra de velocidade de cada intervalo de tempo baseado no bpm informado pelo usuário. Devido à limitações de espaço, o máximo de retângulos que podem ser gerados para o bom funcionamento do software é de 46 retângulos. Um exemplo que faria com que o software apresentasse inconsistência pode ser encontrado abaixo:
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
     \includegraphics[angle=90,origin=c,width=0.4\textwidth]{imagens/416.png}
     \caption{Folha com 4 batidas por folha e 16 notas por batida}
@@ -475,43 +594,37 @@ Para a utilização do protocolo MIDI e para a comunicação entre sintetizadore
 A biblioteca consiste em duas classes chamadas RtMidiOut e RtMidiIn. A classe RtMidiOut proporciona, para o desenvolvedor, funcionalidades simples para a imediata troca de mensagens MIDI entre dispositivos virtuais ou não conectados através de uma conexão MIDI. Com essas funcionalidades foi possível ocorrer o envio de mensagens para o sintetizador selecionado pelo usuário como porta de entrada ou cliente para escrita da conexão midi com apenas o uso, após configurada essa entrada, de uma função responsável exclusivamente pelo envio dessas mensagens. A outra classe, RtMidiIn, apesar de não ter sido utilizada no software apresentado neste trabalho, utiliza uma função interna de callback ou thread para receber mensagens MIDI que são enviadas a partir de uma porta de saída MIDI selecionável e as lendo, transformando no formato utilizado pela biblioteca, ou repassando-a imediatamente para uma função de callback especificada pelo usuário, o que tornaria possível, por exemplo, o software reproduzir, num sintetizador digital, o que foi enviado a partir de um controlador físico conectado à máquina do usuário.
 
 Para o testes do software, foram utilizados 3 softwares de terceiros, sendo eles o QSynth, sintetizador virtual MIDI, o VMPK, outro sintetizador virtual MIDI mas também controlador, e o QJackCtl, um software que permite o usuário administrar as conexões MIDI entre saídas e entradas MIDI disponíveis na máquina.
-TUDO ABAIXO SERÁ EXPLICADO NESTE ÚTIMO CAPÍTULO
 
-- Descrever o sintetizador usado nos experimentos (QSynth).
+Abaixo pode-se visualizar como se dá a comunicação dos softwares controlador e sintetizador:
 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{imagens/Diagrama2.png}
+    \caption{Diagrama de fluxo entrada e saída MIDI}
+    \label{fig:diagrama}
+\end{figure}
 
-- Descrever como se dá, no Linux, a interligação entre seu software
-Controlador e o Sintetizador. Um diagrama legal feito no inkscape
-cairia bem nesse canto.
-O diagrama a seguir representa como o software controlador se comunica com um sintetizador
-DIAGRAMA (MIDI INPUT, OUPUT, SOFTWARE CONTROLADOR E SINTETIZADOR)
-BASICAMENTE SOFTWARE (CONTROLADOR) COMO OUTPUT LIGADO NO SINTETIZADOR (VMPK OU QSYNTH) COMO INPUT E A TROCA DE MENSAGENS OCORRE DO CONTROLADOR PARA O SINTETIZADOR.
+Onde as portas de saída são os controladores e as de entrada são os sintetizadores.
 
 \chapter{Resultados}
 \label{cha:resultados}
 
-Apresentar exemplos de uso da ferramenta...
+Quando em ambiente bem iluminada, ângulação da câmera corretamente ajustada e marcações devidamente adicionadas à folha, o software apresenta ótimos resultados em conjunto com softwares sintetizadores que seguem o Protocolo MIDI, pecando apenas na temporização das notas devido ao algoritmo utilizado.
 
-Tem um software bem legal de composição chamado rosegarden. Ele também
-funciona como um ``sintetizador m MIDI'', pois aceita entradas do
-controlador para permitir composições. Prepare um loop de exemplo e
-conecte a saida do seu controlador na entrada do rosegarden. Observe a
-sequencia gerada no software. Salve a sequencia e verifique se é
-possível, usando o rosegarden, repetir a sequencia de loops conectando
-agora rosegarden->qsynth.
+Também é possível utilizar o software como um controlador midi em uma DAW, porém, da forma como ele está no momento da escrita desde documento, ainda apresenta inconsistências quando utilizada dessa forma. A DAW utilizada para se obterem os resultados chama-se Reaper e é gratuita.
 
-Se funcionar legal (acredito que funcionará sem problemas), terás um
-resultado muito bom, pois poderá mixar várias combinações possíveis
-usando o rosegarden.
+Pode-se considerar, de certa forma, cada folha de papel como um compasso de uma partitura musical, o torna possível a composição não de músicas completas, mas sim de trechos e ideias de músicas, e o usuário pode guarda-lás assim como se faz com partituras, tabalturas e gravações, porém com a vantagem de alterar o tempo e o instrumento a cada vez que reproduzir a informação contida na folha de papel.
 
 \chapter{Conclusões}
 \label{cha:conclusoes}
 
-Revise em linhas gerais o algoritmo desenvolvido e mostre os
-progressos que obteve, comentando resultados e dificuldades
-enfrentadas.
+O software desenvolvido consiste num algoritmo criado especificamente para o que o software pretende entregar para o usuário. Utilizando de conceitos de visão artificial e de comunicação MIDI para interpretar informaçoes e elementos, a partir de uma folha A4 impressa com um layout espefícico e preenchida de acordo com o que o usuário pretende que seja reproduzido, e enviando mensagens MIDI para um segundo software sintetizador escolhido elo usuário, que será o responsável por reproduzir as notas desejadas e encontradas na folha de papel.
 
-Proponha melhorias para a sua criação.
+Durante o desenvolvimento, foram precisos armazenar informações no modelo da folha de papel e se identificar pontos distintos para haver uma transformada de perspectiva na imagem original capturada pela câmera e, para esses dois quesitos, foram utilizados como solução um código de barras para o armazenamento das informações e marcadores ArUco para o software determinar corretamente a área de maior interesse da folha.
+
+Devido a reprodução e repetição do algoritmo não otimizado de maneira correta, o software acaba tendo problemas com relação à temporização de cada nota, para a qual foi convencionado um substituto da fórmula do compasso da teoria musical para ser aplicado um cálculo de tempo que cada nota deve ser mantida ativada. Uma solução seria a aplicação de um vetor de mensagens MIDI que seria preenchido no momento que o software interpretasse folha de papel da primeira vez e com isso, ao invés do software procurar informação em cada retângulo da folha a todo momento, o que gera {\it overhead} considerável, só aconteceria a leitura desse vetor onde foram armazenadas as mensagens MIDI, tornando o programa mais veloz e provavelmente solucionando o problema da temporização de cada som e adicionando também a possibilidade de serem criados diferentes vetores a partir de diferentes folhas de papel, tornando possível o usuário reproduzir mais de uma folha de papel em sequência.
+
+O software utiliza interfaces para o usuário disponibilizadas pela biblioteca de visão aritificial OpenCv, porém essas interfaces não são modernas ou intuitivas, prejudicando a experiência do usuário final. Outra adição ao programa seria criar uma interface visual intuitiva e moderna com as opções de se selecionar a oitava, velocidade, volume, instrumento que o sintetizador deverá simular, criar um novo pdf a partir de parâmetros definidos do usuário diretamente da aplicação e não utilizando um segundo programa e uma visualização, no caso da adição da funcionalidade dos vetores apresentada no parágrafo anterior, de cada folha de papel armazenada e uma linha do tempo de qual folha está sendo reproduzida no momento caso o usuário tenha escolhido reproduzir mais de uma folha em sequência.
 
 \bibliography{referencias}
 

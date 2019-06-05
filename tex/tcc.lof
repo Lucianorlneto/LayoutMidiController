@@ -6,13 +6,19 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces \IeC {\'A}rea central de uma folha\relax }}{4}{figure.caption.3}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces {\it Midi Item} na DAW Reaper\relax }}{6}{figure.caption.5}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Velocidades em nota\IeC {\c c}\IeC {\~a}o musical e seus respectivos valores para a mensagem {\it Note On}\relax }}{8}{figure.caption.4}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Din\IeC {\^a}mica em nota\IeC {\c c}\IeC {\~a}o musical e seus respectivos valores para a mensagem {\it Note On}\relax }}{8}{figure.caption.7}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Controladores controlados a partir da mensagem {\it Control Change}\relax }}{9}{figure.caption.8}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Exemplos de marcadores ArUco\relax }}{10}{figure.caption.9}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Modelo com c\IeC {\'\i }rculos\relax }}{11}{figure.caption.10}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Resultado de uma transforma\IeC {\c c}\IeC {\~a}o de perspectiva em uma imagem\relax }}{13}{figure.caption.11}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Folha com 4 batidas por folha e 16 notas por batida\relax }}{13}{figure.caption.5}
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Imagem capturada pela c\IeC {\^a}mera com marca\IeC {\c c}\IeC {\~o}es de reconhecimento\relax }}{14}{figure.caption.6}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Folha com 4 batidas por folha e 16 notas por batida\relax }}{14}{figure.caption.12}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Imagem capturada pela c\IeC {\^a}mera com marca\IeC {\c c}\IeC {\~o}es de reconhecimento\relax }}{15}{figure.caption.13}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Diagrama de fluxo entrada e sa\IeC {\'\i }da MIDI\relax }}{18}{figure.caption.14}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

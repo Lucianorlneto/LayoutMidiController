@@ -370,8 +370,8 @@ int main(int argc, char** argv)
                 tempo_linha = (tempo*1000000);
                 tempo_linha = tempo_linha/(float)barcode_int3;
                 //copia para desenhar marcações da imagem transformada
-                destinationImage.copyTo(destinationImage2);
                 while(stop == false){
+                    destinationImage.copyTo(destinationImage2);
                     for (i = 0; i < linhas_barcode_int; ++i)
                     {
                         //SE TIVER ALGUMA NOTA LIGADA E ELA ESTIVER NO VETOR DE NOTAS ANTERIOES, DESLIGÁ-LA
