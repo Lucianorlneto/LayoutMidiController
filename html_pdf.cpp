@@ -188,6 +188,13 @@ void gera_html(int linhas, string result){
 	"\n" <<
 	"<div class='rotate' style='position: absolute; top: 600px; right: 0px;' id='barcode'></div>\n" <<
 	"\n" <<
+	"<div style='left: 137px; top: 0px; position: absolute'><img src='baterabeto/Icone0201.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 236px; top: 0px; position: absolute'><img src='baterabeto/Icone0202.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 335px; top: 0px; position: absolute'><img src='baterabeto/Icone0203.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 433px; top: 0px; position: absolute'><img src='baterabeto/Icone0204.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 533px; top: 0px; position: absolute'><img src='baterabeto/Icone0205.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 632px; top: 0px; position: absolute'><img src='baterabeto/Icone0206.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
+	"<div style='left: 734px; top: 0px; position: absolute'><img src='baterabeto/Icone0207.png' heigh='25px' width='25px' class='rotate'></div>\n" <<
 	"<div style='position: absolute; top: 10px; left: 125px; right: 125px; bottom: 73px;'>\n" <<
 	"<table align='center' width='646px' style='height: 1237px'>\n" <<
 	"<thead>\n" <<
