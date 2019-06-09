@@ -1049,11 +1049,22 @@ Primeiramente é necessário gerar um modelo de folha de papel a partir de um so
 Onde podemos comparar, levando um compasso de uma partitura como referência, o modelo da figura \ref{fig:modelo44} com um compasso de uma partitura com, no máximo, dezesseis semicolcheias, o modelo da figura \ref{fig:modelo48} com um compasso com, no máximo, 32 fusas, o modelo da figura \ref{fig:modelo84} com um compasso com, no máximo, 32 semicolcheias e o modelo da figura \ref{fig:modelo162} com um compasso com, no máximo, 32 colcheias, sendo possível, devido à implementação da identificação de marcação de nota continuada, mostrada na figura \ref{fig:marcacao_continuada}, utilizar notas que fiquem ativas durante mais de um intervalo de tempo da folha.
 
 Abaixo há uma referência para a nomenclatura das figuras de tempo, utilizadas no parágrafo anterior:
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.4\textwidth]{imagens/tempos.png}
-  \caption{Figuras musicais para representação de tempo}
-  \label{fig:tempos}
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/tempos.png}
+    \caption{Figuras musicais para representação de tempo}
+    \label{fig:tempos}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/semibreve.png}
+    \caption{Valores de cada figura}
+    \label{fig:tempos_valores}
+  \end{subfigure}
 \end{figure}
 
 Com a folha impressa, inicia-se o software primário com os parâmetros que representam, respectivamente, o identificador da câmera que o usuário utilizará para capturar as imagens, o bpm que será levado como referência no cálculo do tempo de cada nota e a oitava, indicando quais valores o conjunto de 13 sons representarão no sintetizador. Após a iniciação correta do software, o usuário deverá informar, dentro as entradas listadas, qual ele quer que receba as mensagens enviadas pelo programa.
