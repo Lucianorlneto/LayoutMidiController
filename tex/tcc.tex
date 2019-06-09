@@ -38,6 +38,28 @@
 %\usepackage{glossaries}
 \usepackage{acro}
 \usepackage[toc,titletoc]{appendix}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+  frame=tb,
+  language=c++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 %\usepackage[acronym]{glossaries}
 %\usepackage{longtable}
 % probably a good idea for the nomenclature entries:
@@ -333,6 +355,45 @@ apresentado no capítulo três, enquanto os próximos dois capítulos
 discorrem, respectivamente, sobre resultados do software e conclusões
 tiradas ao final do desenvolvimento do projeto.
 
+\chapter{{\it Drum Pads} do mercado}
+\label{cha:drum_pads}
+
+Os hardwares e softwares disponíveis no mercado, hoje, que serviram como referência para o desenvolvimento do software apresentado neste trabalho podem ser chamados de {\it drum pads}, {\it sample pads} ou {\it sampling pads}, os quais as principais diferenças são que, nos {\it sample} ou {\it sampling pads}, diferentemente dos {\it drum pads}, não há simulação apenas de instrumentos de percussão, mas também aceitam sons customizados, ou {\it samples}, e, por esse motivo, são bastante utilizados por DJ's.
+
+Os preços dos hardwares, nos casos mais baratos, variam na faixa dos 50 ou 60 dólares podendo chegar, em casos de equipamentos mais voltados à profissionais, a um valor de 600 dólares ou mais. Já os softwares, disponíveis principalmente para smartphones modernos, encontrados de graça podendo chegar à faixa dos 30 dólares.
+
+Devido à inviabilidade de serem testados hardwares do tipo descritos anteriormente por questões de preço e indisponibilidade em lojas físicas, foram testados três aplicativos disponibilizados de forma gratuira na {\it Play Store} da Google, disponível em smartphones com o sistema operacional Android. Os softwares foram os {\it Electro Music Drum Pads}, {\it Drum Pad Machine} - Crie música e {\it Drum Pad 24 - Music Maker}. Abaixo é possível visualizar os menus principais de cada um dos três:
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{imagens/drumpads24.jpeg}
+    \caption{{\it Drum Pad 24 - Music Maker}}
+    \label{fig:emdp}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{imagens/dpm.jpeg}
+    \caption{{\it Drum Pad Machine} - Crie música}
+    \label{fig:dpm}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.6\textwidth]{imagens/emdp.jpeg}
+    \caption{{\it Electro Music Drum Pads}}
+    \label{fig:drumpads24}
+  \end{subfigure}
+\end{figure}
+
+O aplicativo {\it Electro Music Drum Pads} é um {\it drum pad} e apresenta apenas uma interface para reprodução dos sons ao toque dos botões e uma outra interface para seleção de parâmetros de controle para reprodução dos sons como volumee compressão, já os outros dois analisados são {\it sample pads. Ambos {\it Drum Pad Machine} - Crie música e {\it Drum Pad 24 - Music Maker} apresentam diversos pacotes de sons diferentes, sendo alguns gratuitos e outros pagos, com 24 sons diferentes em cada. Também possuem funcionalidades para programação de {\it loop} sendo um com 32 sons e outro com 24, gravação para armazenando do áudio gravado na memória oferecida pelo dispositivo que está executando o aplicativo e, no {\it Drum Pad 24 - Music Maker}, uma interface para controle de tom dos vinte e quatro sons. Apesar de aparentemente mais completo, o aplicativo {\it Drum Pad 24 - Music Maker} peca principalmente na interface para programação de repetições, apesar de ambos terem uma limitação de quantos sons podem ser programados em sequência.
+
+O software desenvolvido nestre trabalho tem como objetivo simular a função de programação de sequências desses aplicativos e, apesar das limitações físicas, dá mais probabilidades para o usuário, tornando mais livre a sua aplicação final, porém, por utilizar exclusivamente o protocolo MIDI para comunicação com softwares sintetizadores MIDI, não reproduz sons customizados, o que o torna um {\it drum pad} capaz de aceitar, além de bancos de simulação de percussão, bancos de simulação de instrumentos melódicos como piano, órgão, gaita, violão entre diversos outros.
+
+De acordo com pesquisas feitas, mas apesar de não testados, os hardwares, principalmente os mais caros e mais profissionais, sempre disponibilizam para o usuário um software próprio daquele hardware com bancos de sons pré selecionados e, em alguns casos, com formatos compatíveis com bancos disponíveis online para download, ou o próprio hardware já possui um banco interno com sons pré selecionados. Além disso, possuem interfaces de entrada e saída MIDI, o que torna possível serem utilizados como controladores MIDI padrão. Tendo em vista todas as possibilidades que os periféricos desse tipo dão para o usuário, eles certamente são a escolha mais certa para alguém que pretende utilizá-los de forma mais profissional, uma vez que são extremamente completos, porém o investimento será compatível com a qualidade do periférico e o software apresentado neste trabalho com desenvolvido para ser uma opção para um usuário que, tendo uma webcam, procura algo que solucione ao menos a questão de repetição de sons em sequência, além de ter outras aplicações discorridas durante os próximos capítulos deste documento.
+
 \chapter{O padrão MIDI}
 \label{cha:midi}
 
@@ -500,7 +561,80 @@ A partir do módulo Aruco, pode-se gerar marcadores ArUco que consistem em marca
   \label{fig:arucoMarkers}
 \end{figure}
 
-Com uma detecção rápida e precisa desses marcadores, feita pela biblioteca OpenCv, foram escolhidos quatro identificadores que simbolizam os cantos da folha modelo e o software, ao decodificar os quatro marcadores, dependendo do seu identificador, são selecionados 4 pontos, um de cada marcador, a fim de adquirir a área de interesse da folha para o software.
+Para a geração desses marcadores utilizando o código fornecido nos exemplos da utilização da biblioteca na sua documentação, é necessário informar o identificador do marcador e um dicionário dentre dezesseis diferentes, no qual o marcador está presente, além de, opcionalmente ser possível se informar o número de bits na borda do marcador, gerando uma borda maior ou menor, o tamanho do marcador, em pixels. O exemplo abaixo é um marcador criado a partir desse código utilizando, como parâmetros de entrada, dois bits dedicados para borda, dicionário \texttt{DICT\_4X4\_100}, identificador 10 e um tamanho de 50x50 pixels. 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.15\textwidth]{imagens/marker.png}
+    \caption{Marcador de identificador 10 presente no dicionário \texttt{DICT\_4X4\_100}}
+  \label{fig:markers210}
+\end{figure}
+
+Para o software desenvolvido neste trabalho, os marcadores utilizados foram os de identificadores 1, 2, 3 e 4 do dicionário \texttt{DICT\_4X4\_250}, os quais podem ser vistos abaixo com mais clareza:
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{imagens/4x4_1000-1.png}
+    \caption{Marcador do canto superior esquerdo dos modelos}
+    \label{fig:TOPLEFT}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{imagens/4x4_1000-2.png}
+    \caption{Marcador do canto superior direito dos modelos}
+    \label{fig:TOPRIGHT}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{imagens/4x4_1000-3.png}
+    \caption{Marcador do canto inferior esquerdo dos modelos}
+    \label{fig:BOTTOMLEFT}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{imagens/4x4_1000-4.png}
+    \caption{Marcador do canto inferior esquerdo dos modelos}
+    \label{fig:BOTTOMRIGHT}
+  \end{subfigure}
+\end{figure}
+
+Já para detecção desses marcadores, utilizando a biblioteca de visão computacional OpenCv, é possível utilizar a função {\it detecMarkes}, a qual recebe como parâmetros a imagem de origem, o dicionário ao qual as marcas utilizadas pertencem, um vetor para armazenamento dos cantos dos marcadores, um vetor para armazenamento dos identificadores dos marcadores, um objeto da classe {\it DetectorParameters} e um vetor para armazenamento das imagens rejeitadas, ou seja, que foram classificadas como marcadores em algum ponto do algoritmo, porém descartadas num segundo momento pelo algoritmo da função.
+
+O objeto da classe {\it DetectorParameters} tem valores padrão atribuídos a ele pelo construtor da classe, porém, se for necessário, é possível atribuir outros valores para os atriutos do objeto, a fim de alterar a forma que o algortimo faz essa detecção. Os passos seguidos, pelo algoritmo da função, para detecção das imagens são os seguinte: primeiramente é aplicado um {\it thresholding} adaptativo na imagem de origem, ou seja, um filtro com valores de limiar definidos. Após isso, há uma filtragem dos contornos presentes na imagem resultante do primeiro passo, que detectará os contornos presentes na imagem, porém nem todos os contornos são considerados marcadores. Os contornos são filtrados em passos intermediários, os quais descartam contornos os quais não são considerados marcadores a fim de otimizar o desempenho da detecção, pois, a partir desse ponto, os passos subsequentes geralmente têm maior custo computacional. Com os contornos e candidatos á marcadores detectados, o algortimo verifica se esses candidatos realmente são marcadores ou não fazendo uma extração dos bits presentes em cada candidato. Na documentação é possível visualizar como a extração dos bits é feita: primeiramente é feita uma transformada de perspectiva em cima do canditato, a fim de remover qualquer perspectiva indesejada, e o resultado é filtrado com o limiar de Otsu, a fim de diferenciar pixels pretos e branco, como é mostrado na figura abaixo:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.7\textwidth]{imagens/bitsextraction.png}
+    \caption{Remoção de perspectiva para detecção de marcador}
+  \label{fig:bitsextraction}
+\end{figure}
+
+O próximo passo seguido pelo algoritmo é dividir a imagem em uma área quadriculada, onde, em cada célula dessa área, há uma contagem de pixels brancos e pretos, a fim de determinar se aquela célula é branca ou preta.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.7\textwidth]{imagens/bits2.png}
+    \caption{Divisão em {\it grid}}
+  \label{fig:bits2}
+\end{figure}
+
+Esse processo de contagem de pixels pretos e brancos pode ser representado pela imagem abaixo. Nesse passo, são ignorados alguns pixels da imagem a fim de otimizar o proccesso de contagem dos pixels.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.7\textwidth]{imagens/bits3.png}
+    \caption{Processo de ignorar alguns pixels para identificação do marcador}
+  \label{fig:bits3}
+\end{figure}
+
+Após todos os passos do algoritmo de detecção de marcadores, é possível obter-se os identificadores dos marcadores presentes na imagem original, os seus quatro cantos, e os contornos dos objetos rejeitados no processo intermediário no passo de deteção de contornos.
+
+Com essa detecção rápida e precisa feita pela biblioteca OpenCv, foram escolhidos quatro identificadores que simbolizam os cantos da folha modelo e para o software, após decodificar os quatro marcadores, dependendo do seu identificador, selecionar 4 pontos, um de cada marcador, a fim de adquirir a área de interesse da folha para o software.
 
 Com a área de interesse adquirida, é aplicada uma transformação de perspectiva nessa nova imagem a fim de  desprezar distorções causadas pelo posicionamento da câmera, uma vez que esta nova imagem que será analizada pelo software precisa ser paralela à folha, o que é possível a partir de diferentes ângulos, isso se os quatro marcadores forem visíveis, graças a transformação de perspectiva, fazendo o usuário manusear o software de forma mais confortável.
 
@@ -526,7 +660,12 @@ computador. Para isso, foi necessária a criação de um {\it layout} com
 elementos específicos que façam com que o ambiente seja bem
 interpretado pelo programa.
 
-IMAGEM DO LAYOUT
+\begin{figure}[H]
+  \centering
+    \includegraphics[angle=90,origin=c,width=0.5\textwidth]{imagens/modelo44.png}
+    \caption{Modelo da folha com quatro notas por batida}
+  \label{fig:circulos}
+\end{figure}
 
 As principais características do {\it layout} para que haja a
 interação com o programa de computador são os marcadores nos cantos da
@@ -758,6 +897,100 @@ A biblioteca consiste em duas classes chamadas RtMidiOut e RtMidiIn. A classe Rt
 
 Ao se instaciar um objeto da classe RtMidiOut, é criada uma saída virtual MIDI a qual pode se comunicar com qualquer entrada midi disponível e, ao se instanciar um objeto da classe RtMidiIn, é criada uma entrada midi virtual e essa pode receber mensagens de qualquer saída midi disponível, desde de que haja conexão entra as saídas e entradass que se deseja.
 
+Um exemplo, utilizado na documentação da biblioteca, de aplicação da classe RtMidiOut pode ser visto abaixo:
+
+\begin{lstlisting}
+// midiout.cpp
+#include <iostream>
+#include <cstdlib>
+#include "RtMidi.h"
+int main()
+{
+  RtMidiOut *midiout = new RtMidiOut();
+  std::vector<unsigned char> message;
+  // Check available ports.
+  unsigned int nPorts = midiout->getPortCount();
+  if ( nPorts == 0 ) {
+    std::cout << "No ports available!\n";
+    goto cleanup;
+  }
+  // Open first available port.
+  midiout->openPort( 0 );
+  // Send out a series of MIDI messages.
+  // Program change: 192, 5
+  message.push_back( 192 );
+  message.push_back( 5 );
+  midiout->sendMessage( &message );
+  // Control Change: 176, 7, 100 (volume)
+  message[0] = 176;
+  message[1] = 7;
+  message.push_back( 100 );
+  midiout->sendMessage( &message );
+  // Note On: 144, 64, 90
+  message[0] = 144;
+  message[1] = 64;
+  message[2] = 90;
+  midiout->sendMessage( &message );
+  SLEEP( 500 ); // Platform-dependent ... see example in tests directory.
+  // Note Off: 128, 64, 40
+  message[0] = 128;
+  message[1] = 64;
+  message[2] = 40;
+  midiout->sendMessage( &message );
+  // Clean up
+ cleanup:
+  delete midiout;
+  return 0;
+}
+\end{lstlisting}
+
+O exemplo apresentado da documentação oficial para a classe RtMidiIn pode ser visualizado logo a seguir:
+
+\begin{lstlisting}
+// qmidiin.cpp
+#include <iostream>
+#include <cstdlib>
+#include <signal.h>
+#include "RtMidi.h"
+bool done;
+static void finish(int ignore){ done = true; }
+int main()
+{
+  RtMidiIn *midiin = new RtMidiIn();
+  std::vector<unsigned char> message;
+  int nBytes, i;
+  double stamp;
+  // Check available ports.
+  unsigned int nPorts = midiin->getPortCount();
+  if ( nPorts == 0 ) {
+    std::cout << "No ports available!\n";
+    goto cleanup;
+  }
+  midiin->openPort( 0 );
+  // Don't ignore sysex, timing, or active sensing messages.
+  midiin->ignoreTypes( false, false, false );
+  // Install an interrupt handler function.
+  done = false;
+  (void) signal(SIGINT, finish);
+  // Periodically check input queue.
+  std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
+  while ( !done ) {
+    stamp = midiin->getMessage( &message );
+    nBytes = message.size();
+    for ( i=0; i<nBytes; i++ )
+      std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+    if ( nBytes > 0 )
+      std::cout << "stamp = " << stamp << std::endl;
+    // Sleep for 10 milliseconds ... platform-dependent.
+    SLEEP( 10 );
+  }
+  // Clean up
+ cleanup:
+  delete midiin;
+  return 0;
+}
+\end{lstlisting}
+
 Para o testes do software, foram utilizados 3 softwares de terceiros, sendo eles o QSynth, sintetizador virtual MIDI, o VMPK, outro sintetizador virtual MIDI mas também controlador, e o QJackCtl, um software que permite o usuário administrar as conexões MIDI entre saídas e entradas MIDI disponíveis na máquina.
 
 Abaixo pode-se visualizar como se dá a comunicação dos softwares controlador e sintetizador:
@@ -813,6 +1046,16 @@ Primeiramente é necessário gerar um modelo de folha de papel a partir de um so
   \end{subfigure}
 \end{figure}
 
+Onde podemos comparar, levando um compasso de uma partitura como referência, o modelo da figura \ref{fig:modelo44} com um compasso de uma partitura com, no máximo, dezesseis semicolcheias, o modelo da figura \ref{fig:modelo48} com um compasso com, no máximo, 32 fusas, o modelo da figura \ref{fig:modelo84} com um compasso com, no máximo, 32 semicolcheias e o modelo da figura \ref{fig:modelo162} com um compasso com, no máximo, 32 colcheias, sendo possível, devido à implementação da identificação de marcação de nota continuada, mostrada na figura \ref{fig:marcacao_continuada}, utilizar notas que fiquem ativas durante mais de um intervalo de tempo da folha.
+
+Abaixo há uma referência para a nomenclatura das figuras de tempo, utilizadas no parágrafo anterior:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{imagens/tempos.png}
+  \caption{Figuras musicais para representação de tempo}
+  \label{fig:tempos}
+\end{figure}
+
 Com a folha impressa, inicia-se o software primário com os parâmetros que representam, respectivamente, o identificador da câmera que o usuário utilizará para capturar as imagens, o bpm que será levado como referência no cálculo do tempo de cada nota e a oitava, indicando quais valores o conjunto de 13 sons representarão no sintetizador. Após a iniciação correta do software, o usuário deverá informar, dentro as entradas listadas, qual ele quer que receba as mensagens enviadas pelo programa.
 
 Após serem definidos os parâmetros de inicialização, o usuário deve posicionar a folha de papel de maneira que a câmera identifique ambos os quatro marcadores ArUco tanto o código de barras. No momento que forem interpretados da maneira correta, marcadores aparecerão na tela indicando que o usuário pode prosseguir normalmente. Ver figura \ref{tudo_ok}.
@@ -826,13 +1069,23 @@ Após os elementos serem devidamente interpretados pelo software, uma nova janel
   \label{fig:colunas_marcacoes}
 \end{figure}
 
-Abaixo é possível visualizar uma folha com os quatro primeiros compassos da música "Brilha Brilha Estrelinha". Cada folha representaria apenas um compasso por vez da música original, porém, devido à solução encontrada para essa limitação, que é a fórmula do compasso convecionada já discuta anteriormente, é possível reproduzir quatro compassos em uma única folha, como pode-se visualizar abaixo. A folha em questão possui os seguintes parâmetros: 32 e 1, os quais fazem cada batida representar uma coluna da folha, ou seja, 32 batidas por folha e 32 notas ou conjunto de notas por folha.
+Abaixo é possível visualizar uma folha com os quatro primeiros compassos da música "Dó Ré Mi Fá". Cada folha representaria apenas um compasso por vez da música original, porém, devido à solução encontrada para essa limitação, que é a fórmula do compasso convecionada já discuta anteriormente, é possível reproduzir quatro compassos em uma única folha, como é possível de se visualizar abaixo. A folha em questão possui os seguintes parâmetros: 16 e 2, os quais fazem cada batida representar uma coluna da folha, ou seja, 16 batidas por folha, duas notas por batida e 32 notas ou conjunto de notas por folha, a qual, quando comparada a um compasso de uma partitura, pode-se dizer que representa um compasso com no máximo 32 colcheias.
 
-IMGEM BRILHA BRILHA
+\begin{figure}[H]
+  \centering
+  \includegraphics[angle=270,origin=c,width=1\textwidth]{imagens/doremifa.jpeg}
+  \caption{Folha que simula a música "Dó Ré Mi Fá"}
+  \label{fig:doremifa}
+\end{figure}
 
 Também é possível, com o modo de bateria ativado, ao se pressionar a tecla M, reproduzir acompanhamentos de bateria em sequência. A figura abaixo representa uma bateria de rock, onde se tem dois bumbos em sequência seguidos por uma caixa com acompanhamento de chimbal:
 
-IMAGEM DA BATERIA
+\begin{figure}[H]
+  \centering
+  \includegraphics[angle=270,origin=c,width=1\textwidth]{imagens/bateria_rock.jpeg}
+  \caption{Folha que simula um ritmo de rock}
+  \label{fig:bateria_rock}
+\end{figure}
 
 
 \bibliography{referencias}

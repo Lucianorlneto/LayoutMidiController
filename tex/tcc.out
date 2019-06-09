@@ -1,10 +1,12 @@
 \BOOKMARK [0][-]{chapter.1}{Introdu\347\343o}{}% 1
-\BOOKMARK [0][-]{chapter.2}{Modelo para Interpreta\347\343o}{}% 2
-\BOOKMARK [0][-]{chapter.3}{Algoritmo}{}% 3
-\BOOKMARK [0][-]{chapter.4}{Protocolo MIDI}{}% 4
-\BOOKMARK [0][-]{chapter.5}{Marcadores ArUco}{}% 5
-\BOOKMARK [0][-]{chapter.6}{Transforma\347\343o de Perspectiva}{}% 6
-\BOOKMARK [0][-]{chapter.7}{Como Utilizar o Software}{}% 7
-\BOOKMARK [0][-]{chapter.8}{Biblioteca RtMidi}{}% 8
-\BOOKMARK [0][-]{chapter.9}{Resultados}{}% 9
-\BOOKMARK [0][-]{chapter.10}{Conclus\365es}{}% 10
+\BOOKMARK [0][-]{chapter.2}{Drum Pads do mercado}{}% 2
+\BOOKMARK [0][-]{chapter.3}{O padr\343o MIDI}{}% 3
+\BOOKMARK [0][-]{chapter.4}{Marcadores ArUco e seu papel na identifica\347\343o do posicionamento do drum pad}{}% 4
+\BOOKMARK [0][-]{chapter.5}{O modelo de `drum pad` e os aspectos de vis\343o artificial envolvidos na sua interpreta\347\343o}{}% 5
+\BOOKMARK [1][-]{section.5.1}{Transforma\347\343o de Perspectiva para corre\347\343o de distor\347\365es}{chapter.5}% 6
+\BOOKMARK [0][-]{chapter.6}{O Algoritmo de identifica\347\343o de marca\347\365es de notas}{}% 7
+\BOOKMARK [0][-]{chapter.7}{Como Utilizar o Software}{}% 8
+\BOOKMARK [0][-]{chapter.8}{Resultados}{}% 9
+\BOOKMARK [0][-]{chapter.9}{Conclus\365es}{}% 10
+\BOOKMARK [0][-]{appendix.A}{Biblioteca RtMidi}{}% 11
+\BOOKMARK [0][-]{appendix.B}{Passo-a-passo para utiliza\347\343o do software}{}% 12

@@ -355,13 +355,13 @@ int main(int argc, char** argv)
 
                     //TRANSFORMADA DO GRID
                     dst_vertices[0] = Point(0,0);
-                    dst_vertices[1] = Point(linhas_barcode_int*30,0);
-                    dst_vertices[2] = Point(linhas_barcode_int*30,13*30);
-                    dst_vertices[3] = Point(0,13*30);
+                    dst_vertices[1] = Point(linhas_barcode_int*30-2,0);
+                    dst_vertices[2] = Point(linhas_barcode_int*30-2,13*30-1);
+                    dst_vertices[3] = Point(0,13*30-1);
 
                     warpPerspectiveMatrix = getPerspectiveTransform(src_vertices, dst_vertices);
 
-                    warpPerspective(src, destinationImage, warpPerspectiveMatrix, Size(linhas_barcode_int*30,13*30), INTER_LINEAR, BORDER_CONSTANT);
+                    warpPerspective(src, destinationImage, warpPerspectiveMatrix, Size(linhas_barcode_int*30-2,13*30-1), INTER_LINEAR, BORDER_CONSTANT);
 
                     imshow("Transformada",destinationImage);
                     //////////////////////////////
@@ -405,7 +405,7 @@ int main(int argc, char** argv)
                                 celula = destinationImage(Rect((int)i*((float)destinationImage.rows/13), (int)(j*((float)destinationImage.cols/linhas_barcode_int)), (int)((float)destinationImage.rows/13), (int)((float)destinationImage.cols/linhas_barcode_int)));
 
                                 //DESENHAR CÉLULAS LIDAS
-                                rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 3);
+                                rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 1);
                                 imshow("Transformada",destinationImage2);
 
 
