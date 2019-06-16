@@ -1,0 +1,55 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.6 }
+
+\bibitem[{ArUco Library} 2019]{aruco2}
+\abntrefinfo{{ArUco Library}}{{ArUco Library}}{2019}
+{{ArUco Library}. \emph{The ArUco Library}. 2019.
+  \url{http://www.uco.es/investiga/grupos/ava/node/}.}
+
+\bibitem[Drum Pad 24 - Music Maker 2018]{app3}
+\abntrefinfo{Drum\ldots}{DRUM\ldots}{2018}
+{DRUM Pad 24 - Music Maker. 2018.
+  \url{https://play.google.com/store/apps/details?id=com.paullipnyagov.drumpads24}.}
+
+\bibitem[Drum Pad Machine - Crie Música 2019]{app2}
+\abntrefinfo{Drum\ldots}{DRUM\ldots}{2019}
+{DRUM Pad Machine - Crie Música. 2019.
+  \url{https://play.google.com/store/apps/details?id=com.agminstruments.drumpadmachine}.}
+
+\bibitem[Electro Music Drum Pads 2018]{app1}
+\abntrefinfo{Electro\ldots}{ELECTRO\ldots}{2018}
+{ELECTRO Music Drum Pads. 2018.
+  \url{https://play.google.com/store/apps/details?id=electro.drum.pads}.}
+
+\bibitem[{OpenCv Library} 2019]{opencv}
+\abntrefinfo{{OpenCv Library}}{{OpenCv Library}}{2019}
+{{OpenCv Library}. \emph{The OpenCv Documentation}. 2019.
+  \url{https://docs.opencv.org/}.}
+
+\bibitem[{RtMidi: realtime MIDI i/o C++ classes} 2019]{rtmidi}
+\abntrefinfo{{RtMidi: realtime MIDI i/o C++ classes}}{{RtMidi: realtime MIDI
+  i/o C++ classes}}{2019}
+{{RtMidi: realtime MIDI i/o C++ classes}. \emph{The RtMidi Documentation}.
+  2019. \url{http://www.music.mcgill.ca/~gary/rtmidi/}.}
+
+\bibitem[{The MIDI Association} 2019]{midi}
+\abntrefinfo{{The MIDI Association}}{{The MIDI Association}}{2019a}
+{{The MIDI Association}. \emph{\GG{20020530}The MIDI Documentation}. 2019.
+  \url{https://www.midi.org}.}
+
+\bibitem[{The MIDI Association} 2019]{tabela1}
+\abntrefinfo{{The MIDI Association}}{{The MIDI Association}}{2019b}
+{{The MIDI Association}. \emph{\GG{20020531}Summary of MIDI Messages}. 2019.
+  \url{https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message}.}
+
+\bibitem[{The MIDI Association} 2019]{tabela2}
+\abntrefinfo{{The MIDI Association}}{{The MIDI Association}}{2019c}
+{{The MIDI Association}. \emph{\GG{20020533}Expanded Messages List (Status
+  Bytes)}. 2019.
+  \url{https://www.midi.org/specifications-old/item/table-2-expanded-messages-list-status-bytes}.}
+
+\end{thebibliography}

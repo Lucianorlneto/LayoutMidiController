@@ -410,7 +410,15 @@ int main(int argc, char** argv)
 
 
                                 //FILTRAR O BRANCO DA CÉLULA
-                                inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
+                                // inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
+                                // imshow("teste celula", celula);
+                                cvtColor(celula, celula, CV_RGB2GRAY);
+                                // imshow("teste celula", celula);
+                                celula.convertTo(celula, CV_8UC1);
+                                // imshow("teste celula", celula);
+                                threshold(celula, mask1, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
+                                // imshow("teste mask1", mask1);
+                                // waitKey();
 
                                 //POSIÇÕES PARA IDENTIFICAR SE HÁ ALGO DIFERENTE DE BRANCO NO CENTRO DA CÉLULA
                                 for (int y = 11; y < mask1.rows-11; ++y)
@@ -523,7 +531,7 @@ int main(int argc, char** argv)
                             if(noteon == true){
                                 for (int i = 0; i < (int)notas_anteriores.size(); ++i)
                                 {
-                                    message[0] = MIDI_NOTEOFF;
+                                    message[0] = MIDI_NOTEOFF_DRUM;
                                     message[1] = notas_anteriores[i];
                                     midiout->sendMessage( &message );
                                     noteon = false;
@@ -541,12 +549,15 @@ int main(int argc, char** argv)
                                 celula = destinationImage(Rect((int)i*((float)destinationImage.rows/13), (int)(j*((float)destinationImage.cols/linhas_barcode_int)), (int)((float)destinationImage.rows/13), (int)((float)destinationImage.cols/linhas_barcode_int)));
 
                                 //DESENHAR CÉLULAS LIDAS
-                                rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 3);
+                                rectangle(destinationImage2, Point(i*((float)destinationImage.rows/13) ,j*((float)destinationImage.cols/linhas_barcode_int)), Point((i+1)*((float)destinationImage.rows/13),(j+1)*((float)destinationImage.cols/linhas_barcode_int)), Scalar(0,255,0), 1);
                                 imshow("Transformada",destinationImage2);
 
 
                                 //FILTRAR O BRANCO DA CÉLULA
-                                inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
+                                // inRange(celula, Scalar(130, 130, 130), Scalar(255, 255, 255), mask1);
+                                cvtColor(celula, celula, CV_RGB2GRAY);
+								celula.convertTo(celula, CV_8UC1);
+								threshold(celula, mask1, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
 
                                 //POSIÇÕES PARA IDENTIFICAR SE HÁ ALGO DIFERENTE DE BRANCO NO CENTRO DA CÉLULA
                                 for (int y = 11; y < mask1.rows-11; ++y)
@@ -576,12 +587,12 @@ int main(int argc, char** argv)
                                                 message[1] = bateria_notas[j];
                                                 midiout->sendMessage( &message );
                                                 noteon = true; 
-                                                tocada[oitava*20+12-j] = true;
+                                                tocada[bateria_notas[j]] = true;
                                                 // tem_nota = false;
                                             }else{
                                                 //SENÃO, CASO ELA AINDA NÃO TENHA SIDO TOCADA, TOCÁ-LA
                                                 // cout << "tem nota false" << endl;
-                                                if(tocada[oitava*20+12-j] == false){
+                                                if(tocada[bateria_notas[j]] == false){
                                                     // cout << "tocou nota" << endl; 
                                                     // cout << "tocou nota (mantem ligada)" << oitava*16+13-j << endl;   
                                                     message[0] = MIDI_NOTEON_DRUM;
@@ -597,10 +608,15 @@ int main(int argc, char** argv)
                                             for (int x1 = x; x1 < mask1.cols; ++x1)
                                             {
                                                 Scalar colour2 = mask1.at<uchar>(Point(x1, 17));
+                                                // imshow("mask1", mask1);
+                                                // waitKey();
+                                                // cout << colour2.val[0] << endl;
+                                                // mask1.at<uchar>(Point(x1, 17)) = 0;
                                                 //AO IDENTIFICAR PRÓXIMO PIXEL BRANCO, DESLIGAR NOTA NA ETAPA DE DESLIGAR AS NOTAS
                                                 if(colour2.val[0]!=0){
                                                     notas_anteriores.push_back(bateria_notas[j]);
                                                     // tocada[oitava*16+13-j] = false;
+                                                    break;
                                                 }
                                             }
                                         }

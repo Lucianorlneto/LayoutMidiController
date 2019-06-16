@@ -3,14 +3,13 @@
 \babel@toc {english}{}
 \babel@toc {brazil}{}
 \contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}{\it Drum Pads} do mercado}{3}{chapter.2}
-\contentsline {chapter}{\numberline {3}O padr\IeC {\~a}o MIDI}{6}{chapter.3}
-\contentsline {chapter}{\numberline {4}Marcadores ArUco e seu papel na identifica\IeC {\c c}\IeC {\~a}o do posicionamento do {\it drum pad}}{10}{chapter.4}
-\contentsline {chapter}{\numberline {5}O modelo de `drum pad` e os aspectos de vis\IeC {\~a}o artificial envolvidos na sua interpreta\IeC {\c c}\IeC {\~a}o}{15}{chapter.5}
-\contentsline {section}{\numberline {5.1}Transforma\IeC {\c c}\IeC {\~a}o de Perspectiva para corre\IeC {\c c}\IeC {\~a}o de distor\IeC {\c c}\IeC {\~o}es}{16}{section.5.1}
-\contentsline {chapter}{\numberline {6}O Algoritmo de identifica\IeC {\c c}\IeC {\~a}o de marca\IeC {\c c}\IeC {\~o}es de notas}{18}{chapter.6}
-\contentsline {chapter}{\numberline {7}Como Utilizar o Software}{21}{chapter.7}
-\contentsline {chapter}{\numberline {8}Resultados}{24}{chapter.8}
-\contentsline {chapter}{\numberline {9}Conclus\IeC {\~o}es}{25}{chapter.9}
-\contentsline {chapter}{\numberline {A}Biblioteca RtMidi}{27}{appendix.A}
-\contentsline {chapter}{\numberline {B}Passo-a-passo para utiliza\IeC {\c c}\IeC {\~a}o do software}{32}{appendix.B}
+\contentsline {chapter}{\numberline {2}O padr\IeC {\~a}o MIDI}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}Os marcadores ArUco e seu papel na identifica\IeC {\c c}\IeC {\~a}o do {\it drum pad}}{7}{chapter.3}
+\contentsline {chapter}{\numberline {4}{\it Drum pads} f\IeC {\'\i }sicos e a constru\IeC {\c c}\IeC {\~a}o de um equivalente virtual}{12}{chapter.4}
+\contentsline {section}{\numberline {4.1}Construindo um {\it drum pad} virtual}{14}{section.4.1}
+\contentsline {section}{\numberline {4.2}Transforma\IeC {\c c}\IeC {\~a}o de Perspectiva para corre\IeC {\c c}\IeC {\~a}o de distor\IeC {\c c}\IeC {\~o}es}{15}{section.4.2}
+\contentsline {section}{\numberline {4.3}Identificando as marca\IeC {\c c}\IeC {\~o}es de notas}{16}{section.4.3}
+\contentsline {chapter}{\numberline {5}Resultados}{20}{chapter.5}
+\contentsline {chapter}{\numberline {6}Conclus\IeC {\~o}es}{24}{chapter.6}
+\contentsline {chapter}{\numberline {A}Biblioteca RtMidi}{26}{appendix.A}
+\contentsline {chapter}{\numberline {B}Passo-a-passo para utiliza\IeC {\c c}\IeC {\~a}o do software}{31}{appendix.B}
